@@ -21,9 +21,9 @@ let hasShownCompletionMessage = false;
 
 // 載入 JSON 資料
 Promise.all([
-  fetch('../data/questions.json').then(res => res.json()),
-  fetch('../data/options.json').then(res => res.json()),
-  fetch('../data/themes.json').then(res => res.json())
+  fetch('https://MOKA5011.github.io/tmdds/data/questions.json').then(res => res.json()),
+  fetch('https://MOKA5011.github.io/tmdds/data/options.json').then(res => res.json()),
+  fetch('https://MOKA5011.github.io/tmdds/data/themes.json').then(res => res.json())
 ]).then(([qData, oData, tData]) => {
   // 🔹 確保只取前 15 題（防呆）
   questions = qData.slice(0, 15);
