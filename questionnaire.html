@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>脫癮而出｜網路使用風險問卷</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- 姓名輸入頁 -->
+  <section id="namePage" class="section">
+    <div class="page-header">
+      <h1>網路使用風險問卷</h1>
+      <p>請先輸入您的姓名以開始答題</p>
+    </div>
+    <div style="max-width:400px;margin:auto;">
+      <input type="text" id="username" placeholder="請輸入姓名" required />
+      <button id="startQuizBtn" class="btn">開始答題</button>
+    </div>
+  </section>
+
+  <!-- 問卷表單 -->
+  <form id="quizForm" class="section" style="display:none;">
+    <div class="page-header">
+      <h1>問卷填寫</h1>
+      <p>請根據您的實際情況選擇最符合的選項</p>
+    </div>
+
+    <div id="progressBarContainer">
+      <div id="progressBar"><span>0%</span></div>
+    </div>
+    <div id="progressTip">✅ 已完成 0 / 15 題</div>
+
+    <div id="pageContainer"></div>
+
+    <div class="navigation" style="text-align:center;">
+      <button type="button" id="prevBtn" class="btn">上一頁</button>
+      <button type="button" id="nextBtn" class="btn">下一頁</button>
+      <button type="submit" id="submitBtn" class="btn" style="display:none;">提交問卷</button>
+    </div>
+  </form>
+
+  <!-- 結果分析 -->
+<section id="result" class="section" style="display:none;">
+  <div class="page-header">
+   <h1>結果分析</h1>
+    <p>根據您的作答結果，以下是各項風險評估</p>
+  </div>
+
+    <!-- JS 會填入分析內容 -->
+  </section>
+
+  <footer>
+    <p>© 2025 脫癮而出專題團隊 | 聯絡：email@example.com</p>
+  </footer>
+
+  <script src="js/questionnaire_script.js"></script>
+</body>
+</html>
