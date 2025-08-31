@@ -25,11 +25,9 @@ Promise.all([
   fetch('https://MOKA5011.github.io/tmdds/data/options.json').then(res => res.json()),
   fetch('https://MOKA5011.github.io/tmdds/data/themes.json').then(res => res.json())
 ]).then(([qData, oData, tData]) => {
-  // 🔹 確保只取前 15 題（防呆）
   questions = qData.slice(0, 15);
   options = oData;
   themes = tData;
-  console.log("Loaded questions count:", questions.length, questions);
   renderPage();
 });
 
@@ -39,14 +37,41 @@ function saveAnswer(questionIndex, score) {
   updateProgressBar();
 }
 
+// 更新進度條
+function updateProgressBar() {
+  const totalQuestions = questions.length;
+  const answeredCount = Object.values(answers).filter(ans => ans !== undefined && ans !== "").length;
+  const progressPercent = Math.round((answeredCount / totalQuestions) * 100);
+
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.querySelector("#progressBar span");
+  const progressTip = document.getElementById("progressTip");
+
+  if (progressBar) {
+    progressBar.style.width = `${progressPercent}%`;
+  }
+  if (progressText) {
+    progressText.textContent = `${progressPercent}%`;
+  }
+  if (progressTip) {
+    progressTip.textContent = `✅ 已完成 ${answeredCount} / ${totalQuestions} 題`;
+  }
+
+  if (answeredCount === totalQuestions) {
+    if (progressBar) progressBar.style.backgroundColor = "#fbc02d";
+    if (!hasShownCompletionMessage) {
+      alert("🎉 恭喜你完成所有題目！");
+      hasShownCompletionMessage = true;
+    }
+  }
+}
+
 // 渲染問卷頁面
 function renderPage() {
   const container = document.getElementById("pageContainer");
   container.innerHTML = "";
   const start = currentPage * questionsPerPage;
   const end = start + questionsPerPage;
-
-
 
   for (let i = start; i < end && i < questions.length; i++) {
     const qDiv = document.createElement("div");
@@ -56,7 +81,7 @@ function renderPage() {
     const optDiv = document.createElement("div");
     optDiv.className = "quiz-options";
 
-    options.forEach((opt, idx) => {
+    options.forEach((opt) => {
       const checked = answers[i] === opt.score ? "checked" : "";
       optDiv.innerHTML += `
         <label>
@@ -69,7 +94,6 @@ function renderPage() {
     container.appendChild(qDiv);
   }
 
-  // 🔹 精準計算最後一頁
   const totalPages = Math.ceil(questions.length / questionsPerPage) - 1;
   document.getElementById("prevBtn").style.display = currentPage === 0 ? "none" : "inline-block";
   document.getElementById("nextBtn").style.display = currentPage < totalPages ? "inline-block" : "none";
@@ -118,7 +142,7 @@ document.getElementById("quizForm").addEventListener("submit", async (e) => {
     return;
   }
 
-  // 打包成物件：題目文字 + 選項文字 + 分數
+  // 打包答案
   let payload = {};
   payload["姓名"] = window.participantName || "";
   questions.forEach((qText, idx) => {
@@ -127,20 +151,32 @@ document.getElementById("quizForm").addEventListener("submit", async (e) => {
     payload[`Q${idx+1} 分數`] = answers[idx];
   });
 
-  // 送到 Formspree
   await fetch("https://formspree.io/f/mblajzqo", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
   });
 
-  // 切換畫面顯示結果
   document.getElementById("quizForm").style.display = "none";
   document.getElementById("progressBarContainer").style.display = "none";
   document.getElementById("pageContainer").style.display = "none";
   document.getElementById("result").style.display = "block";
   showResults();
 });
+
+// ✨ 分數跑數字
+function animateScore(finalScore) {
+  const scoreDiv = document.getElementById("finalScore");
+  let current = 0;
+  const interval = setInterval(() => {
+    if (current >= finalScore) {
+      clearInterval(interval);
+    } else {
+      current++;
+      scoreDiv.textContent = `總分：${current}`;
+    }
+  }, 25);
+}
 
 // 顯示結果分析
 function showResults() {
@@ -159,23 +195,48 @@ function showResults() {
 
   const overallAnalysis = totalScore < 50 ? "風險偏低，請持續保持良好使用習慣。" :
                           totalScore < 90 ? "中度風險，建議檢視網路使用行為。" :
-                                            "高度風險，可能已影響生活，建議尋求協助。";
+                                            "⚠️ 高度風險，可能已影響生活，建議尋求協助。";
 
   const resultContainer = document.getElementById("result");
-  if (!resultContainer) return;
-
   resultContainer.innerHTML = `
     <div class="page-header">
       <h1>結果分析</h1>
       <p>根據您的作答結果，以下是各項風險評估</p>
     </div>
-    <div class="quiz-question">
-      <p>總分：<strong>${totalScore}</strong></p>
-      <p>${overallAnalysis}</p>
-    </div>
-    <h2 style="text-align:center; margin-top:40px;">主題分析</h2>
+    <div id="finalScore" class="final-score"></div>
+    <p style="text-align:center;">${overallAnalysis}</p>
   `;
 
+  animateScore(totalScore);
+
+  // 高分警告效果
+  if (totalScore >= 90) {
+    document.body.classList.add("flash-warning");
+    setTimeout(() => document.body.classList.remove("flash-warning"), 3000);
+
+    const resultSection = document.getElementById("result");
+    resultSection.classList.add("glitch-effect");
+
+    // RGB 偏移隨機閃動
+    let glitchInterval = setInterval(() => {
+      const randX1 = Math.floor(Math.random() * 6) - 3;
+      const randX2 = Math.floor(Math.random() * 6) - 3;
+      resultSection.style.setProperty("--glitch-before-x", `${randX1}px`);
+      resultSection.style.setProperty("--glitch-after-x", `${randX2}px`);
+    }, 80);
+
+        setTimeout(() => {
+      clearInterval(glitchInterval);
+      resultSection.classList.remove("glitch-effect");
+    }, 1500);
+
+    const alertBox = document.createElement("div");
+    alertBox.className = "alert-box shake";
+    alertBox.textContent = "⚠️ 網癮程度過高！請立即放下手機！";
+    resultContainer.appendChild(alertBox);
+  }
+
+  // 主題分數分析
   let index = 0;
   for (let theme in themeScores) {
     const score = themeScores[theme];
@@ -211,59 +272,36 @@ function showResults() {
 
     index++;
   }
+
+  // 📤 分享結果 ＋ 🏠 回到首頁
+  const btnContainer = document.createElement("div");
+  btnContainer.className = "result-buttons";
+
   const shareBtn = document.createElement("button");
-shareBtn.className = "btn";
-shareBtn.textContent = "📤 分享結果";
-
-shareBtn.onclick = () => {
-  const shareText = `我剛完成「脫癮而出」網路使用風險測驗，總分 ${totalScore} 分，${overallAnalysis} 👉 ${location.href}`;
-  
-  if (navigator.share) {
-    navigator.share({
-      title: "脫癮而出｜網路風險測驗",
-      text: shareText,
-      url: location.href
-    });
-  } else {
-    navigator.clipboard.writeText(shareText);
-    alert("已複製分享內容，可貼給朋友！");
-  }
-};
-
-resultContainer.appendChild(shareBtn);
-
-}
-
-// 更新進度條
-function updateProgressBar() {
-  const totalQuestions = questions.length;
-  const answeredCount = Object.values(answers).filter(ans => ans !== undefined && ans !== "").length;
-  const progressPercent = Math.round((answeredCount / totalQuestions) * 100);
-
-  const progressBar = document.getElementById("progressBar");
-  const progressText = document.querySelector("#progressBar span");
-  const progressTip = document.getElementById("progressTip");
-
-  if (progressBar) {
-    progressBar.style.width = `${progressPercent}%`;
-  }
-  if (progressText) {
-    progressText.textContent = `${progressPercent}%`;
-  }
-  if (progressTip) {
-    progressTip.textContent = `✅ 已完成 ${answeredCount} / ${totalQuestions} 題`;
-  }
-
-  if (answeredCount === totalQuestions) {
-    if (progressBar) progressBar.style.backgroundColor = "#fbc02d";
-    if (!hasShownCompletionMessage) {
-      alert("🎉 恭喜你完成所有題目！");
-      hasShownCompletionMessage = true;
+  shareBtn.className = "btn";
+  shareBtn.textContent = "📤 分享結果";
+  shareBtn.onclick = () => {
+    const shareText = `我剛完成「脫癮而出」網路使用風險測驗，總分 ${totalScore} 分，${overallAnalysis} 👉 ${location.href}`;
+    if (navigator.share) {
+      navigator.share({
+        title: "脫癮而出｜網路風險測驗",
+        text: shareText,
+        url: location.href
+      });
+    } else {
+      navigator.clipboard.writeText(shareText);
+      alert("已複製分享內容，可貼給朋友！");
     }
-  }
-}
+  };
 
-// 隱藏星星提示
-function hideStars() {
-  document.getElementById("starContainer").style.display = "none";
+  const homeBtn = document.createElement("button");
+  homeBtn.className = "btn";
+  homeBtn.textContent = "🏠 回到首頁";
+  homeBtn.onclick = () => {
+    window.location.href = "index.html";
+  };
+
+  btnContainer.appendChild(shareBtn);
+  btnContainer.appendChild(homeBtn);
+  resultContainer.appendChild(btnContainer);
 }
