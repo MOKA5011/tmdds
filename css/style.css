@@ -118,6 +118,11 @@ body {
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
+#intro .btn {
+  display: inline-block;
+  margin-top: 10px;
+}
+
 /* 卡片共用 */
 .card, .quiz-question, .chart-card, .comment-card {
   background: #fff;
