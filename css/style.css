@@ -10,6 +10,7 @@ body {
   background: #fff;
   scroll-behavior: smooth;
   font-family: "Noto Sans TC", sans-serif;
+  padding-top: 56px;
 }
 
 /* 導覽列 */
@@ -62,7 +63,9 @@ body {
   margin-bottom: 20px;
 }
 .hero-section p {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  font-weight: 300;
+  letter-spacing: 1px;
   margin-bottom: 20px;
 }
 
@@ -125,7 +128,8 @@ body {
   transition: transform 0.3s;
 }
 .card:hover, .quiz-question:hover, .chart-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
 /* 製作過程卡片 */
@@ -164,6 +168,16 @@ body {
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 10px;
+}
+
+/* 團隊介紹文字 */
+.member h3 {
+  margin: 10px 0 5px;
+  color: #e63946;
+}
+.member p {
+  color: #555;
+  font-size: 0.95rem;
 }
 
 /* 成果展示 */
@@ -235,7 +249,7 @@ select:focus {
 
 /* Footer */
 footer {
-  background: #222;
+  background: #0A1232;
   color: #ccc;
   padding: 20px;
   text-align: center;
@@ -299,6 +313,33 @@ footer {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   margin-top: 50px;
 }
+/* 區塊交錯背景色 */
+#intro, #dreams, #outlook {
+  background: #fff;
+}
+#characters, #production, #team {
+  background: #f8f9fa;
+}
+
+/* 幕後花絮區塊 */
+#behind {
+  background: #fff8f5;
+}
+#behind p {
+  color: #444;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+#behind .gallery img {
+  width: 280px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  transition: transform 0.3s;
+}
+#behind .gallery img:hover {
+  transform: scale(1.05);
+}
+
 
 /* 手機版優化 */
 @media (max-width: 600px) {
