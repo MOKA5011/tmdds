@@ -81,8 +81,20 @@ body {
   cursor: pointer;
   transition: transform 0.2s, background 0.3s;
 }
+
 .btn:hover {
   background: #d62828;
+  transform: scale(1.05);
+}
+
+/* 問卷按鈕 hover 效果 */
+.btn-glow {
+  box-shadow: 0 0 0 transparent;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 12px rgba(230, 57, 70, 0.6);
   transform: scale(1.05);
 }
 
