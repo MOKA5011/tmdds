@@ -4,15 +4,28 @@
   padding: 0;
   box-sizing: border-box;
 }
-body {
-  line-height: 1.6;
-  color: #333;
-  background: #fff;
-  scroll-behavior: smooth;
-  font-family: "Noto Sans TC", sans-serif;
-  padding-top: 56px;
-}
 
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+
+  /* 字體與排版 */
+  font-family: "Noto Sans TC", sans-serif;
+  line-height: 1.6;
+  color: #000; /* 或 #333，看你想要的對比度 */
+
+  /* 背景設定 */
+  background: url("../assets/images/warning.svg") no-repeat center center scroll;
+  background-repeat: repeat;
+  background-size: contain;
+  background-attachment: scroll;
+  background-color: #ffffff;
+
+  /* 頁面上方留白（導覽列高度） */
+  padding-top: 45px;
+}
 /* 導覽列 */
 .navbar {
   position: fixed;
@@ -46,11 +59,15 @@ body {
   height: 100vh;
   background-size: cover;
   background-position: center;
+  background-attachment: fixed; /* ✨ 背景固定，產生視差效果 */
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #fff; /* 確保文字在深色背景上清晰 */
+  text-align: center;
 }
+
 .hero-section .overlay {
   background: rgba(0,0,0,0.5);
   padding: 40px;
@@ -105,7 +122,12 @@ body {
   margin: 0 auto;
 }
 .section.bg-light {
-  background: #f8f9fa;
+  background: rgba(255, 255, 255, 0.8); /* 半透明白色 */
+  backdrop-filter: blur(8px);           /* ✨ 背景模糊 */
+  -webkit-backdrop-filter: blur(8px);   /* Safari 支援 */
+  border-radius: 12px;                  /* 圓角邊框 */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* 微光邊框 */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);     /* 陰影浮起感 */
 }
 .section h2 {
   text-align: center;
@@ -137,16 +159,20 @@ body {
 
 /* 卡片共用 */
 .card, .quiz-question, .chart-card, .comment-card {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.6); /* 半透明白色 */
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   margin-bottom: 20px;
-  transition: transform 0.3s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  backdrop-filter: blur(8px); /* ✨ 背景模糊 */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* 微光邊框 */
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
 }
-.card:hover, .quiz-question:hover, .chart-card:hover {
+
+.card:hover, .quiz-question:hover, .chart-card:hover, .comment-card:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  background: rgba(255, 255, 255, 0.75); /* hover 時稍微變亮 */
 }
 
 /* 製作過程卡片 */
@@ -169,7 +195,10 @@ body {
   justify-items: center;
 }
 .member {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 20px;
   border-radius: 12px;
   text-align: center;
@@ -331,11 +360,12 @@ footer {
   margin-top: 50px;
 }
 /* 區塊交錯背景色 */
-#intro, #dreams, #outlook {
-  background: #fff;
-}
-#characters, #production, #team {
-  background: #f8f9fa;
+#intro, #dreams, #outlook,
+#characters, #production, #team, #behind {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* 幕後花絮區塊 */
