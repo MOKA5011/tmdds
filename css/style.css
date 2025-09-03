@@ -136,15 +136,24 @@ body {
   font-weight: bold;
 }
 
+.section.no-glass {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+}
+
 /* 專題介紹 */
 #intro .container {
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
-  align-items: center;
+  align-items: flex-start;
 }
 #intro .text, #intro .image {
   flex: 1;
+  order: 1;
 }
 #intro img {
   width: 100%;
@@ -152,10 +161,40 @@ body {
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
+#intro .image-grid {
+  flex: 1;
+  order: 2;
+}
+
+
 #intro .btn {
   display: inline-block;
   margin-top: 10px;
 }
+
+#concept p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #222;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* 圖片排版 */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.image-grid .image img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
 
 /* 卡片共用 */
 .card, .quiz-question, .chart-card, .comment-card {
@@ -594,3 +633,24 @@ footer {
     padding: 6px 10px;
   }
 }
+@media (max-width: 768px) {
+  #intro .container {
+    flex-direction: column;
+  }
+  #intro .text {
+    order: 1;
+  }
+  #intro .image-grid {
+    order: 2;
+  }
+    .image-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .image-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
