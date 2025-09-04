@@ -5,7 +5,7 @@
   box-sizing: border-box;
 }
 
-body {
+body.main-site {
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -26,6 +26,43 @@ body {
   /* 頁面上方留白（導覽列高度） */
   padding-top: 45px;
 }
+
+body.questionnaire-site {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+
+  /* 字體與排版 */
+  font-family: "Noto Sans TC", sans-serif;
+  line-height: 1.6;
+  color: #000; /* 或 #333，看你想要的對比度 */
+
+  /* 背景設定 */
+  background: url("../assets/images/warning.svg") no-repeat center center scroll;
+  background-repeat: repeat;
+  background-size: cover;
+  background-attachment: scroll;
+  background-color: #ffffff;
+
+  /* 頁面上方留白（導覽列高度） */
+  padding-top: 45px;
+}
+
+main {
+  flex: 1;
+}
+
+footer {
+  background: #0A1232;
+  color: #ccc;
+  padding: 20px;
+  text-align: center;
+}
+
+
 /* 導覽列 */
 .navbar {
   position: fixed;
@@ -214,6 +251,114 @@ body {
   background: rgba(255, 255, 255, 0.75); /* hover 時稍微變亮 */
 }
 
+/* Modal 外層 */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal 內容 */
+.modal-content {
+  background: #222;
+  color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  position: relative;
+  animation: fadeIn 0.4s ease;
+}
+
+.modal-nav {
+  margin-top: 20px;
+  text-align: center;
+}
+.modal-nav button {
+  background: #444;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.modal-nav button:hover {
+  background: #666;
+}
+
+/* 詳細介紹面板 */
+.detail-panel {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 1000;
+}
+
+.detail-content {
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 90%;
+  z-index: 1001; /* 確保點擊不到背景 */
+}
+
+.detail-content img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.arrow {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.arrow.left { left: 20px; }
+.arrow.right { right: 20px; }
+
+/* 滑入動畫 */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 關閉按鈕 */
+.close {
+  position: absolute;
+  top: 10px; right: 20px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+/* 彈出動畫 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* 製作過程卡片 */
 .cards {
   display: grid;
@@ -276,12 +421,16 @@ body {
   gap: 15px;
   justify-content: center;
 }
-.gallery img {
-  width: 300px;
-  border-radius: 10px;
+.gallery img,
+.gallery video {
+  width: 300px;              /* 桌機版固定寬度 */
+  max-width: 100%;           /* 手機版自適應 */
+  height: auto;              /* 保持比例 */
+  border-radius: 10px;       /* 圓角 */
   box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  transition: transform 0.3s;
+  object-fit: cover;         /* 裁切填滿 */
 }
+
 .gallery img:hover {
   transform: scale(1.05);
 }
@@ -557,7 +706,7 @@ footer {
 @media (max-width: 600px) {
   body {
     font-size: 15px;
-    padding: 0 10px;
+    padding: 0 0px;
   }
 
   .section {
