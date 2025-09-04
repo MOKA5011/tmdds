@@ -26,7 +26,6 @@ const detailData = {
 let currentIndex = 0;
 let currentGroup = "";
 
-// 打開詳細介紹
 function showDetail(index, group) {
   currentGroup = group;
   currentIndex = index;
@@ -36,31 +35,23 @@ function showDetail(index, group) {
   document.getElementById("detailTitle").textContent = item.title;
   document.getElementById("detailText").textContent = item.text;
 
-  const panel = document.getElementById("detailPanel");
-  panel.style.display = "flex";
+  document.getElementById("detailPanel").style.display = "flex";
 }
 
-// 左右切換
 function switchDetail(direction) {
   const items = detailData[currentGroup];
   currentIndex = (currentIndex + direction + items.length) % items.length;
   showDetail(currentIndex, currentGroup);
 }
 
-// ✅ 點擊背景關閉
-const panel = document.getElementById("detailPanel");
-if (panel) {
-  panel.addEventListener("click", (e) => {
-    if (e.target.classList.contains("detail-panel")) {
-      e.currentTarget.style.display = "none";
-    }
-  });
+function closeDetail() {
+  document.getElementById("detailPanel").style.display = "none";
 }
 
-// ✅ ESC 關閉
+// 鍵盤操作
 window.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
-    document.getElementById("detailPanel").style.display = "none";
+    closeDetail();
   } else if (e.key === "ArrowRight") {
     switchDetail(1);
   } else if (e.key === "ArrowLeft") {
