@@ -34,13 +34,24 @@ function showDetail(index, group) {
   document.getElementById("detailImg").src = item.img;
   document.getElementById("detailTitle").textContent = item.title;
   document.getElementById("detailText").textContent = item.text;
-
   document.getElementById("detailPanel").style.display = "flex";
-}
+  // 動態顯示/禁用箭頭（不隱藏，只變淡且不能點擊）
+  const leftArrow = document.querySelector('.arrow.left');
+  const rightArrow = document.querySelector('.arrow.right');
+  const total = detailData[group].length;
+
+  leftArrow.style.opacity = index === 0 ? "0.3" : "1";
+  leftArrow.style.pointerEvents = index === 0 ? "none" : "auto";
+
+  rightArrow.style.opacity = index === total - 1 ? "0.3" : "1";
+  rightArrow.style.pointerEvents = index === total - 1 ? "none" : "auto";
+} 
 
 function switchDetail(direction) {
   const items = detailData[currentGroup];
-  currentIndex = (currentIndex + direction + items.length) % items.length;
+  let newIndex = currentIndex + direction;
+  if (newIndex < 0 || newIndex >= items.length) return; // 超出範圍不切換
+  currentIndex = newIndex;
   showDetail(currentIndex, currentGroup);
 }
 

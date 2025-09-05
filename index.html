@@ -108,16 +108,17 @@
 
   <!-- 詳細介紹面板 -->
   <div id="detailPanel" class="detail-panel">
-    <button class="close-btn" onclick="closeDetail()">✕</button>
-    <button class="arrow left" onclick="switchDetail(-1)">←</button>
+    <!-- 把 close-btn 移到 detail-content 裡面 -->
+    <button class="arrow left" onclick="switchDetail(-1)">◀</button>
     <div class="detail-content">
+      <button class="close-btn" onclick="closeDetail()">✕</button>
       <img id="detailImg" src="" alt="">
       <h2 id="detailTitle"></h2>
       <p id="detailText"></p>
     </div>
-    <button class="arrow right" onclick="switchDetail(1)">→</button>
+    <button class="arrow right" onclick="switchDetail(1)">▶</button>
   </div>
-  
+
   <section id="dreams" class="section">
     <h2 data-aos="fade-up">夢境展示</h2>
     <div class="cards">
