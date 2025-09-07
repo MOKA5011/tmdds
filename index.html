@@ -89,7 +89,7 @@
     <h2 data-aos="fade-up">角色介紹</h2>
     <div class="cards">
       <div class="card" onclick="showDetail(0,'characters')">
-        <img src="assets/images/char-boy.jpg" alt="網癮少年">
+        <img src="assets/images/171.jpg" alt="網癮少年">
         <h3>網癮少年</h3>
         <p>孤單、冷漠，沉迷於手機的少年。</p>
       </div>
@@ -143,19 +143,32 @@
 
   <section id="production" class="section bg-light">
     <h2 data-aos="fade-up">製作過程</h2>
-    <div class="production-steps">
-      <div class="step" onclick="showDetail(0,'production')">
-        <img src="assets/images/dreamsingal.png" alt="分鏡設計">
-        <h3>分鏡設計</h3>
+
+    <div class="production-timeline">
+      <!-- Step 1 -->
+      <div class="timeline-step" data-aos="fade-up" data-aos-delay="100" onclick="showDetail(0,'production')">
+        <div class="step-number">1</div>
+        <h3>🎬 動畫繪製</h3>
+        <img src="assets/images/dreamsingal.png" alt="動畫繪製">
+        <p>從分鏡設計到逐格動畫繪製，是整部作品的靈魂建構。</p>
       </div>
-      <div class="step" onclick="showDetail(1,'production')">
-        <img src="assets/images/chiwawa.jpg" alt="角色設計">
-        <h3>角色設計</h3>
+
+      <!-- Step 2 -->
+      <div class="timeline-step" data-aos="fade-up" data-aos-delay="300" onclick="showDetail(2,'production')">
+        <div class="step-number">3</div>
+        <h3>🎧 剪輯錄音</h3>
+        <img src="assets/images/orengeeeeeeeee.jpg" alt="剪輯錄音">
+        <p>聲音與畫面的融合，讓夢境更具沉浸感與情緒張力。</p>
       </div>
-      <div class="step" onclick="showDetail(2,'production')">
-        <img src="assets/images/orengeeeeeeeee.jpg" alt="場景設定">
-        <h3>場景設定</h3>
+
+      <!-- Step 3 -->
+      <div class="timeline-step" data-aos="fade-up" data-aos-delay="200" onclick="showDetail(1,'production')">
+        <div class="step-number">2</div>
+        <h3>💻 網頁製作</h3>
+        <img src="assets/images/chiwawa.jpg" alt="網頁製作">
+        <p>將動畫主題延伸到互動網頁，讓觀眾能深入探索角色與理念。</p>
       </div>
+
     </div>
   </section>
 

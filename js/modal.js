@@ -1,6 +1,6 @@
 const detailData = {
   characters: [
-    { img: "assets/images/char-boy.jpg", title: "網癮少年", text: "孤單、冷漠，沉迷於手機的少年..." },
+    { img: "assets/images/171.jpg", title: "網癮少年", text: "孤單、冷漠，沉迷於手機的少年..." },
     { img: "assets/images/char-future.jpg", title: "未來的自己", text: "十年後的模樣，眼神空洞..." },
     { img: "assets/images/char-grandpa.jpg", title: "幻影阿公", text: "夢境中的引路人，象徵長輩的叮嚀..." }
   ],
