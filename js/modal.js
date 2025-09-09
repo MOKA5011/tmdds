@@ -69,3 +69,8 @@ window.addEventListener("keydown", (e) => {
     switchDetail(-1);
   }
 });
+
+// 手機導覽列漢堡選單
+document.querySelector('.navbar-toggle').onclick = function() {
+  document.querySelector('.navbar-menu').classList.toggle('active');
+};

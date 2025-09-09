@@ -68,10 +68,13 @@ footer {
 /* 導覽列 */
 .navbar {
   position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   top: 0;
   left: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 1);
   z-index: 1000;
   padding: 10px 0;
 }
@@ -79,8 +82,9 @@ footer {
 .navbar ul {
   list-style: none;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 20px;
+  margin-right: 40px; /* 右邊空格，可自行調整數值 */
 }
 
 .navbar ul li a {
@@ -94,6 +98,26 @@ footer {
 
 .navbar ul li a:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+.navbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.logo {
+  margin-left: 40px; /* 左邊空格，可調整 */
+}
+
+.logo img {
+  height: 32px; /* logo高度，可調整 */
+  width: auto;
+  vertical-align: middle;
 }
 
 /* Hero 封面 */
@@ -343,8 +367,8 @@ footer {
 }
 
 .detail-content {
-  width: 400px;
-  min-height: 350px;
+  width: 800px;
+  min-height: 650px;
   max-width: 90vw;
   max-height: 80vh;
   display: flex;
@@ -1140,6 +1164,36 @@ footer {
   .navbar ul li a {
     font-size: 0.9rem;
     padding: 6px 10px;
+  }
+
+  .detail-content {
+    width: 90%;
+    min-height: auto;
+    max-height: 70vh;
+    padding: 15px;
+  }
+  .navbar-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 55px;
+    right: 0;
+    background: rgba(0,0,0,0.95);
+    width: 180px;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    padding: 10px 0;
+    z-index: 1001;
+  }
+  .navbar-menu.active {
+    display: flex;
+  }
+  .navbar-toggle {
+    display: block;
+  }
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
   }
 }
 
