@@ -20,9 +20,12 @@
   <!-- 導覽列 -->
   <header class="navbar">
     <div class="logo">
-      <img src="你的logo路徑/logo.png" alt="Logo" />
+      <img src="assets/images/logo.png" alt="Logo" />
     </div>
-    <nav>
+
+    <button class="navbar-toggle">☰</button>
+
+    <nav id="navMenu">
       <ul>
         <li><a href="#hero">首頁</a></li>
         <li><a href="#intro">專題介紹</a></li>
@@ -36,8 +39,9 @@
     </nav>
   </header>
 
+
   <!-- 首頁封面 -->
-  <section id="hero" class="hero-section" style="background-image: url('assets/images/llllllllllllol.jpg');">
+  <section id="hero" class="hero-section" style="background-image: url('assets/images/IMG_0127.png');">
     <div class="overlay">
       <h1 data-aos="fade-up">脫癮而出</h1>
       <p data-aos="fade-up" data-aos-delay="200">探索 × 反思 × 重生</p>
@@ -97,7 +101,7 @@
         <p>孤單、冷漠，沉迷於手機的少年。</p>
       </div>
       <div class="card" onclick="showDetail(1,'characters')">
-        <img src="assets/images/char-future.jpg" alt="未來的自己">
+        <img src="assets/images/dream2.jpg" alt="未來的自己">
         <h3>未來的自己</h3>
         <p>十年後的模樣，眼神空洞，憔悴不堪。</p>
       </div>
@@ -180,7 +184,7 @@
     <h2 data-aos="fade-up">成果展示</h2>
 
     <div class="video-container" data-aos="fade-up" data-aos-delay="200">
-      <iframe src="https://www.youtube.com/embed/CuVHFfMx5Ns" frameborder="0" allowfullscreen>
+      <iframe src="https://www.youtube.com/embed/2BOyp-xH-no" frameborder="0" allowfullscreen>
       </iframe>
     </div>
 
@@ -249,6 +253,41 @@
       <img src="assets/images/teamwork.jpg" alt="團隊合作">
     </div>
   </section>
+
+  <!-- 周邊 -->
+  <section id="merchandise" class="section bg-light">
+    <h2 data-aos="fade-up">周邊展示與購買</h2>
+    <p class="section-description">支持我們的創作，購買限量周邊商品！</p>
+
+    <div class="merch-cards">
+      <!-- 商品 1 -->
+      <div class="merch-card" data-aos="fade-up" data-aos-delay="100">
+        <img src="assets/images/merch-shirt.jpg" alt="主題拍立得">
+        <h3>主題拍立得｜脫癮而出</h3>
+        <p>簡約設計，象徵重生與自我對話。</p>
+      </div>
+
+      <!-- 商品 2 -->
+      <div class="merch-card" data-aos="fade-up" data-aos-delay="200">
+        <img src="assets/images/merch-book.jpg" alt="海報拼圖">
+        <h3>海報拼圖</h3>
+        <p>超讚的拼圖，讓你在遊戲中重溫經典場景。</p>
+      </div>
+
+      <!-- 商品 3 -->
+      <div class="merch-card" data-aos="fade-up" data-aos-delay="300">
+        <img src="assets/images/merch-sticker.jpg" alt="角色貼紙組">
+        <h3>角色貼紙組</h3>
+        <p>包含網癮少年、幻影阿公等角色插畫，限量發售。</p>
+      </div>
+    </div>
+
+    <h2>支持我們的創作</h2>
+    <p>點擊下方按鈕前往購買周邊商品</p>
+    <a href="merch.html" class="buy-now-btn">立即前往購買頁面</a>
+  </section>
+
+
 
   <!-- Footer -->
   <footer>

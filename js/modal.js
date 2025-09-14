@@ -1,7 +1,7 @@
 const detailData = {
   characters: [
     { img: "assets/images/171.jpg", title: "網癮少年", text: "孤單、冷漠，沉迷於手機的少年..." },
-    { img: "assets/images/char-future.jpg", title: "未來的自己", text: "十年後的模樣，眼神空洞..." },
+    { img: "assets/images/dream2.jpg", title: "未來的自己", text: "十年後的模樣，眼神空洞..." },
     { img: "assets/images/char-grandpa.jpg", title: "幻影阿公", text: "夢境中的引路人，象徵長輩的叮嚀..." }
   ],
   dreams: [
@@ -70,7 +70,21 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
-// 手機導覽列漢堡選單
-document.querySelector('.navbar-toggle').onclick = function() {
-  document.querySelector('.navbar-menu').classList.toggle('active');
-};
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleBtn = document.querySelector(".navbar-toggle");
+  const navMenu = document.getElementById("navMenu");
+  const navLinks = navMenu.querySelectorAll("a");
+
+  if (toggleBtn && navMenu) {
+    toggleBtn.addEventListener("click", () => {
+      navMenu.classList.toggle("show");
+    });
+
+    // 點選任一選單項目後自動收起
+    navLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        navMenu.classList.remove("show");
+      });
+    });
+  }
+});
