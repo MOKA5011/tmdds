@@ -1,0 +1,32 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 變數 */
+:root {
+  --color-primary: #e63946;
+  --color-secondary: #457b9d;
+  --color-dark: #1d3557;
+  --color-light: #f1faee;
+  --radius: 12px;
+  --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --font-main: 'Noto Sans TC', sans-serif;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  line-height: 1.6;
+}
+
+body.main-site {
+  background: #000;
+}
+
+body.questionnaire-site {
+  background: var(--color-light);
+}

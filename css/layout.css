@@ -1,0 +1,41 @@
+header.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.navbar ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.navbar-toggle {
+  display: none;
+}
+
+section {
+  padding: 60px 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background: var(--color-dark);
+  color: white;
+}
+
+.dark-section {
+  background: var(--color-dark);
+  color: white;
+}
+
+.bg-light {
+  background: var(--color-light);
+}

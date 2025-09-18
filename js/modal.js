@@ -26,6 +26,7 @@ const detailData = {
 let currentIndex = 0;
 let currentGroup = "";
 
+/* ========= Modal 功能 ========= */
 function showDetail(index, group) {
   currentGroup = group;
   currentIndex = index;
@@ -35,17 +36,10 @@ function showDetail(index, group) {
   document.getElementById("detailTitle").textContent = item.title;
   document.getElementById("detailText").textContent = item.text;
   document.getElementById("detailPanel").style.display = "flex";
-  // 動態顯示/禁用箭頭（不隱藏，只變淡且不能點擊）
-  const leftArrow = document.querySelector('.arrow.left');
-  const rightArrow = document.querySelector('.arrow.right');
-  const total = detailData[group].length;
 
-  leftArrow.style.opacity = index === 0 ? "0.3" : "1";
-  leftArrow.style.pointerEvents = index === 0 ? "none" : "auto";
-
-  rightArrow.style.opacity = index === total - 1 ? "0.3" : "1";
-  rightArrow.style.pointerEvents = index === total - 1 ? "none" : "auto";
-} 
+  // 更新箭頭狀態
+  updateArrows(index, group);
+}
 
 function switchDetail(direction) {
   const items = detailData[currentGroup];
@@ -59,7 +53,21 @@ function closeDetail() {
   document.getElementById("detailPanel").style.display = "none";
 }
 
-// 鍵盤操作
+function updateArrows(index, group) {
+  const leftArrow = document.querySelector('.detail-content .arrow.left');
+  const rightArrow = document.querySelector('.detail-content .arrow.right');
+  const total = detailData[group].length;
+
+  if (leftArrow && rightArrow) {
+    leftArrow.style.opacity = index === 0 ? "0.3" : "1";
+    leftArrow.style.pointerEvents = index === 0 ? "none" : "auto";
+
+    rightArrow.style.opacity = index === total - 1 ? "0.3" : "1";
+    rightArrow.style.pointerEvents = index === total - 1 ? "none" : "auto";
+  }
+}
+
+/* ========= 鍵盤操作 ========= */
 window.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     closeDetail();
@@ -70,21 +78,80 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
+/* ========= DOM Ready ========= */
 document.addEventListener("DOMContentLoaded", () => {
+  // 點擊背景關閉
+  const detailPanel = document.getElementById("detailPanel");
+  if (detailPanel) {
+    detailPanel.addEventListener("click", (e) => {
+      if (e.target.id === "detailPanel") {
+        closeDetail();
+      }
+    });
+  }
+
+  // Navbar
   const toggleBtn = document.querySelector(".navbar-toggle");
   const navMenu = document.getElementById("navMenu");
-  const navLinks = navMenu.querySelectorAll("a");
+  const navLinks = navMenu ? navMenu.querySelectorAll("a") : [];
 
   if (toggleBtn && navMenu) {
     toggleBtn.addEventListener("click", () => {
       navMenu.classList.toggle("show");
     });
-
-    // 點選任一選單項目後自動收起
     navLinks.forEach(link => {
       link.addEventListener("click", () => {
         navMenu.classList.remove("show");
       });
     });
   }
+
+  // Hero 高度自適應
+  setHeroHeight();
+  window.addEventListener("resize", setHeroHeight);
 });
+
+/* ========= 工具函數 ========= */
+function setHeroHeight() {
+  const hero = document.querySelector(".hero-section");
+  if (hero) {
+    hero.style.height = `${window.innerHeight}px`;
+  }
+}
+
+const canvas = document.getElementById("starfield");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = Array.from({length: 150}, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  r: Math.random() * 1.5,
+  d: Math.random() * 0.5
+}));
+
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "white";
+  ctx.beginPath();
+  stars.forEach(s => {
+    ctx.moveTo(s.x, s.y);
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2, true);
+  });
+  ctx.fill();
+}
+
+function animateStars() {
+  stars.forEach(s => {
+    s.y += s.d;
+    if (s.y > canvas.height) {
+      s.y = 0;
+      s.x = Math.random() * canvas.width;
+    }
+  });
+  drawStars();
+  requestAnimationFrame(animateStars);
+}
+
+animateStars();

@@ -14,15 +14,15 @@ body.main-site {
   /* 字體與排版 */
   font-family: "Noto Sans TC", sans-serif;
   line-height: 1.6;
-  color: #000;
+  color: #f7f7f7;
   /* 或 #333，看你想要的對比度 */
 
   /* 背景設定 */
-  background: url("../assets/images/warning.svg") no-repeat center center scroll;
+  /* background: url("../assets/images/warnin.svg") no-repeat center center scroll;
   background-repeat: repeat;
   background-size: contain;
   background-attachment: scroll;
-  background-color: #ffffff;
+  background-color: #ffffff;/
 
   /* 頁面上方留白（導覽列高度） */
   padding-top: 45px;
@@ -39,7 +39,7 @@ body.questionnaire-site {
   /* 字體與排版 */
   font-family: "Noto Sans TC", sans-serif;
   line-height: 1.6;
-  color: #000;
+  color: #ffffff;
   /* 或 #333，看你想要的對比度 */
 
   /* 背景設定 */
@@ -164,40 +164,51 @@ footer {
     text-align: center;
   }
 }
-/* Hero 封面 */
+
 .hero-section {
   height: 100vh;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  /* ✨ 背景固定，產生視差效果 */
-  position: relative;
+  position: relative; /* 建立定位上下文 */
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
-  /* 確保文字在深色背景上清晰 */
   text-align: center;
+
+  /* 漸變蒙版 */
+  -webkit-mask-image: linear-gradient(to bottom, #000 10%, transparent 100%);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-image: linear-gradient(to bottom, #000 10%, transparent 100%);
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
 }
 
+/* 蒙版層 */
 .hero-section .overlay {
+  position: absolute;
+  inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  padding: 40px;
-  border-radius: 20px;
-  text-align: center;
+  z-index: 1; /* 蒙版層級 */
+}
+
+/* 圖片層（比蒙版高） */
+.hero-image {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2; /* 高於蒙版 */
+  max-width: 100%;
+  height: auto;
+}
+
+/* 文字層（同樣比蒙版高） */
+.hero-text {
+  position: relative;
+  z-index: 2;
   color: #fff;
-}
-
-.hero-section h1 {
-  font-size: 4rem;
-  margin-bottom: 20px;
-}
-
-.hero-section p {
-  font-size: 1.3rem;
-  font-weight: 300;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
 }
 
 /* 按鈕共用 */
@@ -1453,3 +1464,265 @@ footer {
 .buy-btn:hover {
   background: #cc3333;
 }
+
+/* 角色介紹區塊 */
+.dark-section {
+  background: linear-gradient(135deg, #0d0d0d, #1a1a2e);
+  color: #fff;
+  padding: 80px 10%;
+}
+
+.section-title {
+  text-align: center;
+  color: #00f5ff;
+  margin-bottom: 50px;
+  font-size: 2.2rem;
+  letter-spacing: 2px;
+}
+
+.character-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  margin-bottom: 80px;
+  flex-wrap: wrap;
+}
+
+.character-container.reverse {
+  flex-direction: row-reverse;
+}
+
+/* 圖片樣式 */
+.character-image img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.character-image img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+}
+
+/* 文字區塊 */
+.character-text {
+  flex: 1;
+  max-width: 500px;
+}
+
+.character-text h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #1abc9c;
+}
+
+.character-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+/* 手機版響應式 */
+@media (max-width: 768px) {
+  .character-container,
+  .character-container.reverse {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .character-text {
+    max-width: 100%;
+  }
+}
+
+body {
+  background: linear-gradient(-45deg, #0d0d0d, #0d0d3f, #a0b6f3, #0f3460);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  color: #fff;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+/* Section 基礎 */
+.section {
+  padding: 80px 10%;
+}
+
+.dark-section {
+  background: linear-gradient(135deg, #0d0d0d, #1a1a2e);
+}
+
+/* 標題 */
+.section-title {
+  text-align: center;
+  color: #00f5ff;
+  margin-bottom: 50px;
+  font-size: 2rem;
+  letter-spacing: 2px;
+}
+
+/* 分屏容器 */
+.character-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  margin-bottom: 80px;
+  flex-wrap: wrap;
+}
+
+.character-container.reverse {
+  flex-direction: row-reverse;
+}
+
+.character-image img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+  transition: 0.3s ease;
+}
+
+.character-image img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+}
+
+.character-text {
+  flex: 1;
+  max-width: 500px;
+}
+
+.character-text h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #1abc9c;
+}
+
+.character-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+/* 製作過程卡片 */
+.cards {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  background: rgba(20,20,30,0.8);
+  border: 1px solid rgba(0,255,255,0.3);
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 300px;
+  transition: 0.3s;
+  text-align: center;
+}
+
+.card:hover {
+  border-color: #00f5ff;
+  box-shadow: 0 0 20px #00f5ff88;
+  transform: translateY(-5px);
+}
+
+/* 團隊介紹 */
+.team-grid {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.member {
+  text-align: center;
+}
+
+.member img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,255,255,0.6);
+  box-shadow: 0 0 15px rgba(0,255,255,0.5);
+  object-fit: cover;
+}
+
+/* Modal */
+.detail-panel {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.detail-content {
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+}
+
+.detail-content img {
+  max-width: 100%;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  font-size: 2rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.arrow.left { left: -40px; }
+.arrow.right { right: -40px; }
+
+/* 響應式 */
+@media (max-width: 768px) {
+  .character-container,
+  .character-container.reverse {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+#starfield {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: black;
+}
+

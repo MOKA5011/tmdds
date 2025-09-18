@@ -1,0 +1,73 @@
+.hero-section {
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  padding: 100px 20px;
+  color: white;
+  -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+}
+
+/* 角色介紹卡片 */
+.character-container:hover .character-image img {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.character-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+.character-container.reverse {
+  flex-direction: row-reverse;
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.team-grid .member:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.merch-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+/* 商品卡片 hover */
+.merch-cards .merch-card:hover {
+  transform: scale(1.03);
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.overlay {
+  background: rgba(0,0,0,0.4);
+  padding: 20px;
+}
