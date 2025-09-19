@@ -155,3 +155,84 @@ function animateStars() {
 }
 
 animateStars();
+
+document.addEventListener("DOMContentLoaded", () => {
+  const gallery = document.querySelector(".scroll-gallery");
+  const track = document.querySelector(".scroll-track");
+
+  let scrollSpeed = 1;       // 預設速度
+  let normalSpeed = 2;       // 正常速度
+  let slowSpeed = 0.6;       // 滑鼠移上去的速度
+  let autoScroll;
+
+  function startScroll() {
+    autoScroll = setInterval(() => {
+      gallery.scrollLeft += scrollSpeed;
+      if (gallery.scrollLeft >= track.scrollWidth - gallery.clientWidth) {
+        gallery.scrollLeft = 0; // 🔄 無限循環
+      }
+    }, 20);
+  }
+
+  function stopScroll() {
+    clearInterval(autoScroll);
+  }
+
+  // 啟動
+  startScroll();
+
+  // 滑鼠移入 → 減速
+  gallery.addEventListener("mouseenter", () => {
+    scrollSpeed = slowSpeed;
+  });
+
+  // 滑鼠移出 → 恢復
+  gallery.addEventListener("mouseleave", () => {
+    scrollSpeed = normalSpeed;
+  });
+
+  // 拖曳操作（保持不變，拖動時會暫停自動滾動）
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  gallery.addEventListener("mousedown", (e) => {
+    isDown = true;
+    startX = e.pageX - gallery.offsetLeft;
+    scrollLeft = gallery.scrollLeft;
+    stopScroll();
+  });
+
+  gallery.addEventListener("mouseup", () => {
+    isDown = false;
+    startScroll();
+  });
+
+  gallery.addEventListener("mousemove", (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - gallery.offsetLeft;
+    const walk = (x - startX) * 2;
+    gallery.scrollLeft = scrollLeft - walk;
+  });
+
+  // 觸控拖曳
+  gallery.addEventListener("touchstart", (e) => {
+    isDown = true;
+    startX = e.touches[0].pageX - gallery.offsetLeft;
+    scrollLeft = gallery.scrollLeft;
+    stopScroll();
+  });
+
+  gallery.addEventListener("touchend", () => {
+    isDown = false;
+    startScroll();
+  });
+
+  gallery.addEventListener("touchmove", (e) => {
+    if (!isDown) return;
+    const x = e.touches[0].pageX - gallery.offsetLeft;
+    const walk = (x - startX) * 2;
+    gallery.scrollLeft = scrollLeft - walk;
+  });
+});

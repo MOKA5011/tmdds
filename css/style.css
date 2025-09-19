@@ -1726,3 +1726,46 @@ body {
   background: black;
 }
 
+.scroll-gallery {
+  position: relative;
+  overflow: hidden; /* 🔥 用 overflow hidden，靠 JS 滾動 */
+  white-space: nowrap;
+  padding: 20px 0;
+
+  /* 🔥 漸變蒙版 */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0,0,0,0),
+    #000 15%,
+    #000 85%,
+    rgba(0,0,0,0)
+  );
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-image: linear-gradient(
+    to right,
+    rgba(0,0,0,0),
+    #000 15%,
+    #000 85%,
+    rgba(0,0,0,0)
+  );
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+}
+
+.scroll-track {
+  display: inline-flex;
+  gap: 20px;
+  padding: 0 40px;
+}
+
+.scroll-track img {
+  height: 200px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.scroll-track img:hover {
+  transform: scale(1.05);
+}
