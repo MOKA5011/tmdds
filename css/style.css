@@ -71,7 +71,7 @@ footer {
   top: 0;
   left: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 1);
+  background: #19192c;
   z-index: 1000;
   padding: 10px 20px;
   display: flex;
@@ -907,13 +907,9 @@ footer {
   z-index: 0;
 }
 
-/* 幕後花絮區塊 */
-#behind {
-  background: #fff8f5;
-}
 
 #behind p {
-  color: #444;
+  color: #ffffff;
   font-size: 1.1rem;
   line-height: 1.8;
 }
