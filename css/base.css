@@ -1,3 +1,7 @@
+/* ===========================
+   Base / 全域設定
+=========================== */
+
 /* Reset */
 * {
   margin: 0;
@@ -5,28 +9,59 @@
   box-sizing: border-box;
 }
 
-/* 變數 */
-:root {
-  --color-primary: #e63946;
-  --color-secondary: #457b9d;
-  --color-dark: #1d3557;
-  --color-light: #f1faee;
-  --radius: 12px;
-  --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  --font-main: 'Noto Sans TC', sans-serif;
-}
-
-body {
-  font-family: var(--font-main);
-  background-color: var(--color-light);
-  color: var(--color-dark);
-  line-height: 1.6;
-}
-
-body.main-site {
+html, body {
+  height: 100%;
+  font-family: "Noto Sans TC", sans-serif;
   background: #000;
+  color: #fff;
+  line-height: 1.6;
+  scroll-behavior: smooth;
 }
 
-body.questionnaire-site {
-  background: var(--color-light);
+main {
+  flex: 1;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  color: #aaa;
+  background: #111;
+}
+
+/* Global sections */
+.section {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.section h2 {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+/* 按鈕共用 */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 8px;
+  background: #0078ff;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: #005fcc;
+}
+
+.btn-glow {
+  box-shadow: 0 0 10px #0078ff, 0 0 20px #0078ff;
 }

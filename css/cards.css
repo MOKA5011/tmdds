@@ -1,0 +1,62 @@
+/* ===========================
+   Cards & Production Steps
+=========================== */
+
+/* 共用卡片樣式 */
+.cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  background: transparent;
+  border-radius: 12px;
+  padding: 20px;
+  width: 280px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* 製作過程 - 時間軸 */
+.production-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.timeline-step {
+  background: transparent;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+/* 製作過程 - 區塊 */
+.production-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.step-block {
+  background: transparent;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+/* 製作過程 - 流程 */
+.production-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.flow-step {
+  background: transparent;
+  border-radius: 10px;
+  padding: 20px;
+}

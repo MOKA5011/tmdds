@@ -1,0 +1,128 @@
+/* ===========================
+   Quiz / 問卷樣式
+=========================== */
+
+.quiz-question {
+  background: transparent;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.quiz-question p {
+  margin-bottom: 10px;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quiz-options label {
+  cursor: pointer;
+}
+
+#progressBarContainer {
+  background: #333;
+  border-radius: 10px;
+  height: 20px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+
+#progressBar {
+  height: 100%;
+  width: 0;
+  background: #0078ff;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+#progressBar span {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+#progressTip {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+#result {
+  background: transparent;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.score-bar-container {
+  background: #333;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 14px;
+  margin: 10px 0;
+}
+
+.score-bar {
+  height: 100%;
+  width: 0;
+  background: #0078ff;
+  transition: width 1s ease;
+}
+
+/* 警告提示 */
+.alert-box {
+  background: #f44336;
+  color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* 錯誤動畫 */
+.flash-warning {
+  animation: flashWarning 1s infinite;
+}
+
+@keyframes flashWarning {
+  0%, 100% { background: #f44336; }
+  50% { background: #ff9800; }
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-10px); }
+  40%, 80% { transform: translateX(10px); }
+}
+
+/* 故障特效 */
+.glitch-effect {
+  position: relative;
+  color: #f00;
+  animation: glitchMove 1s infinite;
+}
+
+@keyframes glitchMove {
+  0% { text-shadow: 2px 2px #0ff; }
+  50% { text-shadow: -2px -2px #ff0; }
+  100% { text-shadow: 2px 2px #0ff; }
+}

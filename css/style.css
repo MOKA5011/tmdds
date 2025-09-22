@@ -81,11 +81,11 @@ footer {
 
 /* Logo */
 .logo {
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 .logo img {
-  height: 32px;
+  height: 48px;
   width: auto;
   vertical-align: middle;
 }
@@ -102,8 +102,8 @@ footer {
 }
 
 .navbar nav.show {
-  background: rgba(0, 0, 0, 0.95);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  background: #19192c(0.95);
+  box-shadow: 0 4px 12px #19192c(0.3);
 }
 
 /* 導覽選單 */
@@ -131,7 +131,7 @@ footer {
 }
 
 /* 手機版樣式 */
-@media (max-width: 768px) {
+@media (max-width: 938px) {
   .navbar {
     flex-wrap: wrap;
     padding: 10px 20px;
@@ -190,7 +190,7 @@ footer {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 1; /* 蒙版層級 */
+  z-index: 0; /* 蒙版層級 */
 }
 
 /* 圖片層（比蒙版高） */
@@ -199,9 +199,17 @@ footer {
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 2; /* 高於蒙版 */
-  max-width: 100%;
+  z-index: 2;
+  max-width: 90vw;   /* 讓圖片最大寬度為視窗寬度的 90% */
+  width: 800px;     /* 或你想要的固定寬度，例如 1000px */
   height: auto;
+}
+
+@media (max-width: 600px) {
+  .hero-image {
+    max-width: 98vw; /* 手機板最大寬度再放大一點 */
+    width: 100%;
+  }
 }
 
 /* 文字層（同樣比蒙版高） */
@@ -328,7 +336,6 @@ footer {
 
 /* 卡片共用 */
 .card,
-.quiz-question,
 .chart-card,
 .comment-card {
   background: transparent;  /* 完全透明 */
@@ -338,11 +345,26 @@ footer {
 }
 
 .card:hover,
-.quiz-question:hover,
 .chart-card:hover,
 .comment-card:hover {
   background: transparent;  /* 保持透明 */
   transform: translateY(-5px);
+}
+
+.quiz-question {
+  background: rgba(255, 255, 255, 0.25); /* 半透明白色 */
+  backdrop-filter: blur(12px);            /* 毛玻璃模糊 */
+  -webkit-backdrop-filter: blur(12px);    /* Safari 支援 */
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 24px;
+  transition: background 0.3s, box-shadow 0.3s;
+  color: #222; /* 文字顏色改深色，玻璃感更清楚 */
+}
+
+.quiz-question:hover {
+  background: rgba(255, 255, 255, 0.35); /* 輕微加深透明度 */
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12); /* 加強陰影效果 */
 }
 
 /* Modal 外層 */
@@ -623,7 +645,7 @@ footer {
 }
 
 .member p {
-  color: #555;
+  color: #ffffff;
   font-size: 0.95rem;
 }
 
@@ -1752,3 +1774,23 @@ body {
   transform: scale(1.05);
 }
 
+@media (max-width: 768px) {
+  .scroll-gallery {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 80vh;
+  }
+
+  .scroll-track {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .scroll-track img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+}

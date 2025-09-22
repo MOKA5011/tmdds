@@ -1,0 +1,37 @@
+/* ===========================
+   Merch & FAQ / 商品與常見問題
+=========================== */
+
+/* 商品展示 */
+.merch-section {
+  background: transparent;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.merch-card {
+  background: transparent;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 15px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+/* FAQ */
+.faq-list {
+  max-width: 700px;
+  margin: auto;
+  text-align: left;
+}
+
+.faq-list h3 {
+  margin: 15px 0 8px;
+}
+
+.product-detail {
+  background: transparent;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0;
+}

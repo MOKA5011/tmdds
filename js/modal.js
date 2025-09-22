@@ -236,3 +236,25 @@ document.addEventListener("DOMContentLoaded", () => {
     gallery.scrollLeft = scrollLeft - walk;
   });
 });
+
+// 手機版垂直滾動
+document.addEventListener("DOMContentLoaded", () => {
+  const gallery = document.querySelector(".scroll-gallery");
+
+  if (window.innerWidth <= 768 && gallery) {
+    let scrollSpeedY = 1;
+    let autoScrollY;
+
+    function startVerticalScroll() {
+      autoScrollY = setInterval(() => {
+        gallery.scrollTop += scrollSpeedY;
+        if (gallery.scrollTop >= gallery.scrollHeight - gallery.clientHeight) {
+          gallery.scrollTop = 0;
+        }
+      }, 30);
+    }
+
+    startVerticalScroll();
+  }
+  gallery.addEventListener("touchstart", () => clearInterval(autoScrollY));
+});

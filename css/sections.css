@@ -1,73 +1,28 @@
-.hero-section {
-  background-size: cover;
-  background-position: center;
+/* ===========================
+   Sections / 各區塊共用樣式
+=========================== */
+
+.section {
+  padding: 80px 20px;
   text-align: center;
-  padding: 100px 20px;
-  color: white;
-  -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
-  mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
-  mask-repeat: no-repeat;
-  mask-size: 100% 100%;
 }
 
-/* 角色介紹卡片 */
-.character-container:hover .character-image img {
-  transform: scale(1.05);
-  transition: transform 0.3s ease;
+.section h2 {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
 }
 
-.image-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
+.bg-light {
+  background: #f9f9f9;
+  color: #222;
 }
 
-.character-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 40px;
-}
-.character-container.reverse {
-  flex-direction: row-reverse;
+.dark-section {
+  background: #111;
+  color: #fff;
 }
 
-.cards {
-  display: flex;
-  gap: 20px;
-}
-
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.team-grid .member:hover {
-  transform: translateY(-5px);
-  transition: transform 0.3s ease;
-}
-
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.merch-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-/* 商品卡片 hover */
-.merch-cards .merch-card:hover {
-  transform: scale(1.03);
-  box-shadow: var(--shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.overlay {
-  background: rgba(0,0,0,0.4);
-  padding: 20px;
+.no-glass {
+  background: none !important;
+  backdrop-filter: none !important;
 }

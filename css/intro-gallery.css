@@ -1,0 +1,68 @@
+/* ===========================
+   Intro & Horizontal Gallery
+=========================== */
+
+/* 專題介紹圖片網格 */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.image-grid .image img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* 橫向滾動展示 */
+.scroll-gallery {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding: 20px 0;
+  scrollbar-width: none; /* Firefox */
+}
+
+.scroll-gallery::-webkit-scrollbar {
+  display: none; /* Chrome / Safari */
+}
+
+.scroll-track {
+  display: inline-flex;
+  gap: 20px;
+  padding: 0 40px;
+}
+
+.scroll-track img {
+  height: 200px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.scroll-track img:hover {
+  transform: scale(1.05);
+}
+
+/* 兩側漸層遮罩 */
+.scroll-gallery::before,
+.scroll-gallery::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.scroll-gallery::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.8), transparent);
+}
+
+.scroll-gallery::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(0,0,0,0.8), transparent);
+}

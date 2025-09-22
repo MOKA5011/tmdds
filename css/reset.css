@@ -1,0 +1,83 @@
+/* 平板以下 *
+@media (max-width: 768px) {
+  header.navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-section {
+    padding: 60px 20px;
+  }
+
+  .image-grid,
+  .team-grid,
+  .gallery,
+  .merch-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .character-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .video-container iframe {
+    height: 300px;
+  }
+}
+
+/* 手機中尺寸以下 
+@media (max-width: 600px) {
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.5rem; }
+  p { font-size: 0.95rem; }
+
+  .btn,
+  .buy-now-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .cards {
+    flex-direction: column;
+  }
+}
+
+/* 小手機尺寸以下 
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 40px 15px;
+  }
+
+  .image-grid img,
+  .gallery img {
+    width: 100%;
+    height: auto;
+  }
+
+  input, textarea {
+    font-size: 0.9rem;
+  }
+}*/
+
+/* ===========================
+   Reset & Global Settings
+=========================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: "Noto Sans TC", sans-serif;
+  line-height: 1.6;
+  scroll-behavior: smooth;
+}
