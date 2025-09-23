@@ -244,7 +244,7 @@ function showResults() {
                     score < 35 ? "中度風險" : "高度風險";
 
     const themeBlock = document.createElement("div");
-    themeBlock.className = "theme-score card";
+    themeBlock.className = "theme-score-card";
 
     const label = document.createElement("div");
     label.innerHTML = `<strong>${theme}</strong>：${score} 分（${comment}）`;

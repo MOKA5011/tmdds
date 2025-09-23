@@ -172,6 +172,7 @@ footer {
   background-attachment: fixed;
   position: relative; /* 建立定位上下文 */
   display: flex;
+  flex-direction: column; /* 垂直排列 */
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -195,20 +196,38 @@ footer {
 
 /* 圖片層（比蒙版高） */
 .hero-image {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: static;           /* 取消絕對定位 */
+  top: auto;
+  left: auto;
+  transform: none;
+  z-index: 1;
+  max-width: 90vw;
+  width: 800px;
+  height: auto;   
+  margin: 0 auto 40px auto;   /* 圖片下方留點空間 */
+}
+
+.hero-text {
+  margin-bottom: 16px; /* 原本 24px，改小一點 */
+  position: relative;
   z-index: 2;
-  max-width: 90vw;   /* 讓圖片最大寬度為視窗寬度的 90% */
-  width: 800px;     /* 或你想要的固定寬度，例如 1000px */
-  height: auto;
+  color: #fff;
+}
+
+.hero-section p {
+  line-height: 0.2;    /* 原本 1.6，改小一點 */
+  margin-bottom: 30px; /* 行與行之間間距縮小 */
+  font-size: 1.6rem;
 }
 
 @media (max-width: 600px) {
   .hero-image {
     max-width: 98vw; /* 手機板最大寬度再放大一點 */
     width: 100%;
+  }
+  .hero-section p {
+    font-size: 1.2rem; /* 手機板字體再縮小一點 */
+    margin-bottom: 20px;
   }
 }
 
@@ -794,6 +813,17 @@ footer {
   font-size: 14px;
   margin-bottom: 5px;
   color: #555;
+}
+
+.theme-score-card {
+  background: rgba(255, 255, 255, 0.25); /* 半透明白色 */
+  backdrop-filter: blur(12px);            /* 毛玻璃模糊 */
+  -webkit-backdrop-filter: blur(12px);    /* Safari 支援 */
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 24px;
+  transition: background 0.3s, box-shadow 0.3s;
+  color: #222; /* 文字顏色改深色，玻璃感更清楚 */
 }
 
 .score-bar-container {
