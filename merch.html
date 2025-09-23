@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+<canvas id="starfield"></canvas>
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +10,23 @@
 </head>
 
 <body>
+  <div id="preloader">
+    <div class="preloader-content">
+      <img src="assets/images/logo.png" alt="網站 LOGO" class="preloader-logo">
+      <div class="preloader-cube">
+        <div class="cube">
+          <div class="cube__inner"></div>
+        </div>
+        <div class="cube">
+          <div class="cube__inner"></div>
+        </div>
+        <div class="cube">
+          <div class="cube__inner"></div>
+        </div>
+      </div>
+      <p class="loading-text">載入中，請稍候...</p>
+    </div>
+  </div>
   <!-- 導覽列 -->
   <header class="navbar">
     <div class="logo"><img src="assets/images/logo.png" alt="Logo" /></div>
@@ -19,29 +38,29 @@
       </ul>
     </nav>
   </header>
+  <div class="page-wrapper">
+    <main>
+      <!-- 商品展示區 -->
+      <section id="products" class="section bg-light">
+        <h2>周邊商品</h2>
+        <div class="merch-cards">
+          <div class="merch-card">
+            <img src="assets/images/merch-shirt.jpg" alt="主題拍立得">
+            <h3>主題拍立得</h3>
+            <p>象徵重生與自我對話，限量發售。</p>
+            <a href="product.html" target="_blank" class="buy-btn">立即購買</a>
+          </div>
 
-  <main>
-    <!-- 商品展示區 -->
-    <section id="products" class="section bg-light">
-      <h2>周邊商品</h2>
-      <div class="merch-cards">
-        <div class="merch-card">
-          <img src="assets/images/merch-shirt.jpg" alt="主題拍立得">
-          <h3>主題拍立得</h3>
-          <p>象徵重生與自我對話，限量發售。</p>
-          <a href="product.html" target="_blank" class="buy-btn">立即購買</a>
+          <div class="merch-card">
+            <img src="assets/images/merch-book.jpg" alt="海報拼圖">
+            <h3>海報拼圖</h3>
+            <p>超讚的拼圖，讓你在遊戲中重溫經典場景。</p>
+            <a href="puzzle.html" target="_blank" class="buy-btn">立即購買</a>
+          </div>
         </div>
+      </section>
 
-        <div class="merch-card">
-          <img src="assets/images/merch-book.jpg" alt="海報拼圖">
-          <h3>海報拼圖</h3>
-          <p>超讚的拼圖，讓你在遊戲中重溫經典場景。</p>
-          <a href="puzzle.html" target="_blank" class="buy-btn">立即購買</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- 常見問題 
+      <!-- 常見問題 
     <section id="faq" class="section">
       <h2>常見問題</h2>
       <ul class="faq-list">
@@ -49,12 +68,14 @@
         <li><strong>Q：付款方式有哪些？</strong><br>A：支援信用卡、超商付款與行動支付。</li>
         <li><strong>Q：商品多久會出貨？</strong><br>A：下單後 3-5 個工作天內出貨。</li>
       </ul>
-    </section>
-  </main>-->
-
-  <!-- 頁尾 -->
-  <footer>
-    <p>© 2025 脫癮而出專題團隊｜聯絡：email@example.com</p>
-  </footer>
+    </section>-->
+    </main>
+  <script src="js/modal.js"></script>
+    <!-- 頁尾 -->
+    <footer>
+      <p>© 2025 脫癮而出專題團隊｜聯絡：email@example.com</p>
+    </footer>
+  </div>
 </body>
+
 </html>

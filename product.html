@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+  <canvas id="starfield"></canvas>
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +10,23 @@
 </head>
 
 <body>
+  <div id="preloader">
+    <div class="preloader-content">
+      <img src="assets/images/logo.png" alt="網站 LOGO" class="preloader-logo">
+      <div class="preloader-cube">
+        <div class="cube">
+          <div class="cube__inner"></div>
+        </div>
+        <div class="cube">
+          <div class="cube__inner"></div>
+        </div>
+        <div class="cube">
+          <div class="cube__inner"></div>
+        </div>
+      </div>
+      <p class="loading-text">載入中，請稍候...</p>
+    </div>
+  </div>
   <!-- 導覽列 -->
   <header class="navbar">
     <div class="logo"><img src="assets/images/logo.png" alt="Logo" /></div>
@@ -18,33 +37,35 @@
       </ul>
     </nav>
   </header>
-
-  <main>
-    <!-- 商品詳情 -->
-    <section class="section product-detail">
-      <div class="product-container">
-        <div class="product-image">
-          <img src="assets/images/merch-shirt.jpg" alt="主題拍立得">
+  <div class="page-wrapper">
+    <main>
+      <!-- 商品詳情 -->
+      <section class="section product-detail">
+        <div class="product-container">
+          <div class="product-image">
+            <img src="assets/images/merch-shirt.jpg" alt="主題拍立得">
+          </div>
+          <div class="product-info">
+            <h1>主題拍立得｜脫癮而出</h1>
+            <p class="price">NT$ 590</p>
+            <p class="description">
+              這款主題拍立得以「脫癮而出」為設計核心，象徵重生與自我對話。採用柔軟棉料，舒適透氣，適合日常穿搭與活動展示。
+            </p>
+            <ul class="features">
+              <li>材質：拍立得底片</li>
+              <li>尺寸：86mm×54mm</li>
+              <li>限量發售，售完不補</li>
+            </ul>
+            <a href="https://你的購買連結" target="_blank" class="buy-btn">立即購買</a>
+          </div>
         </div>
-        <div class="product-info">
-          <h1>主題拍立得｜脫癮而出</h1>
-          <p class="price">NT$ 590</p>
-          <p class="description">
-            這款主題拍立得以「脫癮而出」為設計核心，象徵重生與自我對話。採用柔軟棉料，舒適透氣，適合日常穿搭與活動展示。
-          </p>
-          <ul class="features">
-            <li>材質：拍立得底片</li>
-            <li>尺寸：86mm×54mm</li>
-            <li>限量發售，售完不補</li>
-          </ul>
-          <a href="https://你的購買連結" target="_blank" class="buy-btn">立即購買</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 脫癮而出專題團隊｜聯絡：email@example.com</p>
-  </footer>
+      </section>
+    </main>
+  <script src="js/modal.js"></script>
+    <footer>
+      <p>© 2025 脫癮而出專題團隊｜聯絡：email@example.com</p>
+    </footer>
+  </div>
 </body>
+
 </html>

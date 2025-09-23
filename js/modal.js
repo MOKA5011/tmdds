@@ -1,20 +1,20 @@
 const detailData = {
   characters: [
     { img: "assets/images/171.jpg", title: "網癮少年", text: "孤單、冷漠，沉迷於手機的少年..." },
-    { img: "assets/images/dream2.jpg", title: "未來的自己", text: "十年後的模樣，眼神空洞..." },
+    { img: "assets/images/IMG_0184.png", title: "阿公和朋友", text: "十年後的模樣，眼神空洞..." },
     { img: "assets/images/char-grandpa.jpg", title: "幻影阿公", text: "夢境中的引路人，象徵長輩的叮嚀..." }
   ],
   dreams: [
     { img: "assets/images/dream1.jpg", title: "夢境一｜遺失時間", text: "無數時鐘與倒數計時..." },
-    { img: "assets/images/dream2.jpg", title: "夢境二｜虛擬幻境", text: "華麗的幻影吸引著他..." },
-    { img: "assets/images/dream3.jpg", title: "夢境三｜自我對話", text: "與另一個自己相遇..." }
+    { img: "assets/images/stage11.png", title: "夢境二｜不存在的外人", text: "神秘的身影在黑暗中徘徊..." },
+    { img: "assets/images/stage9.png", title: "夢境三｜自我對話", text: "與另一個自己相遇..." }
   ],
   team: [
-    { img: "assets/images/toocrazycat.jpg", title: "園長", text: "色彩規劃" },
-    { img: "assets/images/chiwawa.jpg", title: "雲", text: "角色設計" },
-    { img: "assets/images/orengeeeeeeeee.jpg", title: "org", text: "場景設計" },
-    { img: "assets/images/BROOOOOOOOOOOOOOOOOO.jpg", title: "ibo", text: "分鏡繪製" },
-    { img: "assets/images/mikusigo.gif", title: "miu", text: "網頁設計" }
+    { img: "assets/images/cb24cf96bf40fb30cd48e4008eb6b03a.jpg", title: "園長", text: "色彩規劃" },
+    { img: "assets/images/0c68677f46d2fae9df1eeb766391e903.jpg", title: "雲", text: "角色設計" },
+    { img: "assets/images/cf89dffe11bbd0019919fc7c02d32e9e.jpg", title: "org", text: "場景設計" },
+    { img: "assets/images/288e200da732ba5867c98b3da3bdd754.jpg", title: "ibo", text: "分鏡繪製" },
+    { img: "assets/images/cf3245f7e478be8444179bc4f2aa5fb6.jpg", title: "miu", text: "網頁設計" }
   ],
   production: [
     { img: "assets/images/dreamsingal.png", title: "分鏡設計", text: "動畫分鏡規劃與腳本設計" },
@@ -257,4 +257,32 @@ document.addEventListener("DOMContentLoaded", () => {
     startVerticalScroll();
   }
   gallery.addEventListener("touchstart", () => clearInterval(autoScrollY));
+});
+
+window.addEventListener("load", () => {
+  const preloader = document.getElementById("preloader");
+
+  // 淡出動畫
+  preloader.style.transition = "opacity 0.5s ease";
+  preloader.style.opacity = "0";
+  preloader.style.pointerEvents = "none";
+
+  // 移除 DOM 元素
+  setTimeout(() => {
+    if (preloader) {
+      preloader.remove();
+    }
+  }, 500); // 與 transition 時間一致
+});
+
+window.addEventListener("load", () => {
+  const preloader = document.getElementById("preloader");
+  if (preloader) {
+    preloader.style.opacity = "0";
+    preloader.style.pointerEvents = "none";
+    setTimeout(() => {
+      preloader.remove();
+      document.body.style.overflow = "auto"; // ✅ 恢復滾動
+    }, 500);
+  }
 });
