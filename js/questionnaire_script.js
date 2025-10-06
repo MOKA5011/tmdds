@@ -147,8 +147,8 @@ document.getElementById("quizForm").addEventListener("submit", async (e) => {
   payload["姓名"] = window.participantName || "";
   questions.forEach((qText, idx) => {
     const opt = options.find(o => o.score === answers[idx]);
-    payload[`Q${idx+1} - ${qText}`] = opt ? opt.text : "";
-    payload[`Q${idx+1} 分數`] = answers[idx];
+    payload[`Q${idx + 1} - ${qText}`] = opt ? opt.text : "";
+    payload[`Q${idx + 1} 分數`] = answers[idx];
   });
 
   await fetch("https://formspree.io/f/mblajzqo", {
@@ -161,6 +161,7 @@ document.getElementById("quizForm").addEventListener("submit", async (e) => {
   document.getElementById("progressBarContainer").style.display = "none";
   document.getElementById("pageContainer").style.display = "none";
   document.getElementById("result").style.display = "block";
+
   showResults();
 });
 
@@ -180,9 +181,29 @@ function animateScore(finalScore) {
 
 // 顯示結果分析
 function showResults() {
+  const { totalScore, themeScores } = calculateScores();
+  const resultContainer = document.getElementById("result");
+  const username = window.participantName || "";
+
+  // 清空並建立基本框架
+  resultContainer.innerHTML = `
+    <div class="page-header">
+      <h1>結果分析</h1>
+      <p>${username} 根據您的作答結果，以下是各項風險評估</p>
+    </div>
+    <div id="finalScore" class="final-score"></div>
+  `;
+
+  renderOverallResult(totalScore, resultContainer);
+  if (totalScore >= 90) applyHighScoreEffects(resultContainer);
+  renderThemeCards(themeScores, resultContainer);
+  initAccordion();
+}
+
+// 計算分數
+function calculateScores() {
   let totalScore = 0;
   let themeScores = {};
-
   for (let theme in themes) {
     themeScores[theme] = 0;
     themes[theme].forEach(i => {
@@ -192,56 +213,56 @@ function showResults() {
       }
     });
   }
+  return { totalScore, themeScores };
+}
 
+// 總體分析
+function renderOverallResult(totalScore, container) {
   const overallAnalysis = totalScore < 50 ? "風險偏低，請持續保持良好使用習慣。" :
-                          totalScore < 90 ? "中度風險，建議檢視網路使用行為。" :
-                                            "⚠️ 高度風險，可能已影響生活，建議尋求協助。";
+    totalScore < 90 ? "中度風險，建議檢視網路使用行為。" :
+      "⚠️ 高度風險，可能已影響生活，建議尋求協助。";
 
-  const resultContainer = document.getElementById("result");
-  resultContainer.innerHTML = `
-    <div class="page-header">
-      <h1>結果分析</h1>
-      <p>根據您的作答結果，以下是各項風險評估</p>
-    </div>
-    <div id="finalScore" class="final-score"></div>
-    <p style="text-align:center;">${overallAnalysis}</p>
-  `;
+  const analysisP = document.createElement("p");
+  analysisP.style.textAlign = "center";
+  analysisP.textContent = overallAnalysis;
+  container.appendChild(analysisP);
 
   animateScore(totalScore);
+}
 
-  // 高分警告效果
-  if (totalScore >= 90) {
-    document.body.classList.add("flash-warning");
-    setTimeout(() => document.body.classList.remove("flash-warning"), 3000);
+// 高分警告效果
+function applyHighScoreEffects(container) {
+  document.body.classList.add("flash-warning");
+  setTimeout(() => document.body.classList.remove("flash-warning"), 3000);
 
-    const resultSection = document.getElementById("result");
-    resultSection.classList.add("glitch-effect");
+  const resultSection = document.getElementById("result");
+  resultSection.classList.add("glitch-effect");
 
-    // RGB 偏移隨機閃動
-    let glitchInterval = setInterval(() => {
-      const randX1 = Math.floor(Math.random() * 6) - 3;
-      const randX2 = Math.floor(Math.random() * 6) - 3;
-      resultSection.style.setProperty("--glitch-before-x", `${randX1}px`);
-      resultSection.style.setProperty("--glitch-after-x", `${randX2}px`);
-    }, 80);
+  let glitchInterval = setInterval(() => {
+    const randX1 = Math.floor(Math.random() * 6) - 3;
+    const randX2 = Math.floor(Math.random() * 6) - 3;
+    resultSection.style.setProperty("--glitch-before-x", `${randX1}px`);
+    resultSection.style.setProperty("--glitch-after-x", `${randX2}px`);
+  }, 80);
 
-        setTimeout(() => {
-      clearInterval(glitchInterval);
-      resultSection.classList.remove("glitch-effect");
-    }, 1500);
+  setTimeout(() => {
+    clearInterval(glitchInterval);
+    resultSection.classList.remove("glitch-effect");
+  }, 1500);
 
-    const alertBox = document.createElement("div");
-    alertBox.className = "alert-box shake";
-    alertBox.textContent = "⚠️ 網癮程度過高！請立即放下手機！";
-    resultContainer.appendChild(alertBox);
-  }
+  const alertBox = document.createElement("div");
+  alertBox.className = "alert-box shake";
+  alertBox.textContent = "⚠️ 網癮程度過高！請立即放下手機！";
+  container.appendChild(alertBox);
+}
 
-  // 主題分數分析
+// 主題卡片
+function renderThemeCards(themeScores, container) {
   let index = 0;
   for (let theme in themeScores) {
     const score = themeScores[theme];
     const comment = score < 20 ? "風險偏低" :
-                    score < 35 ? "中度風險" : "高度風險";
+      score < 35 ? "中度風險" : "高度風險";
 
     const themeBlock = document.createElement("div");
     themeBlock.className = "theme-score-card";
@@ -249,29 +270,103 @@ function showResults() {
     const label = document.createElement("div");
     label.innerHTML = `<strong>${theme}</strong>：${score} 分（${comment}）`;
 
+    // 分數條
     const barContainer = document.createElement("div");
     barContainer.className = "score-bar-container";
-
     const bar = document.createElement("div");
     bar.className = "score-bar";
     bar.style.setProperty("--score-width", `${Math.min(score, 100)}%`);
     bar.style.animationDelay = `${index * 0.3}s`;
-
-    if (score <= 20) {
-      bar.style.backgroundColor = '#4caf50';
-    } else if (score <= 35) {
-      bar.style.backgroundColor = '#ffeb3b';
-    } else {
-      bar.style.backgroundColor = '#f44336';
-    }
-
+    bar.style.backgroundColor = score <= 20 ? '#4caf50' : score <= 35 ? '#ffeb3b' : '#f44336';
     barContainer.appendChild(bar);
+
+    // Accordion 區塊
+    const accordion = document.createElement("div");
+    accordion.className = "accordion";
+
+    const header = document.createElement("div");
+    header.className = "accordion-header";
+    header.textContent = "查看本主題題目與分析";
+
+    const content = document.createElement("div");
+    content.className = "accordion-content";
+
+    // 題目逐一加入
+    themes[theme].forEach(idx => {
+      const qText = questions[idx];
+      const ansScore = answers[idx];
+      const opt = options.find(o => o.score === ansScore);
+      const ansText = opt ? opt.text : "未作答";
+      let qAnalysis = ansScore >= 8 ? "⚠️ 風險偏高" : ansScore >= 4 ? "中度風險" : "風險低";
+
+      const p = document.createElement("p");
+      p.innerHTML = `<strong>Q${idx + 1}：</strong>${qText}<br>
+        <strong>你的答案：</strong>${ansText}（分數：${ansScore}）<br>
+        <span style="color:#1abc9c">${qAnalysis}</span>`;
+      content.appendChild(p);
+    });
+
+    accordion.appendChild(header);
+    accordion.appendChild(content);
+
     themeBlock.appendChild(label);
     themeBlock.appendChild(barContainer);
-    resultContainer.appendChild(themeBlock);
+    themeBlock.appendChild(accordion);
+    container.appendChild(themeBlock);
 
     index++;
   }
+
+  initAccordion();
+}
+
+// 控制展開動畫
+function initAccordion() {
+  document.querySelectorAll(".accordion").forEach(acc => {
+    const header = acc.querySelector(".accordion-header");
+    const content = acc.querySelector(".accordion-content");
+
+    header.addEventListener("click", () => {
+      const isOpen = acc.classList.contains("open");
+
+      // 找出目前已經展開的
+      const opened = document.querySelector(".accordion.open");
+      if (opened && opened !== acc) {
+        const openedContent = opened.querySelector(".accordion-content");
+        // 收合動畫
+        openedContent.style.height = openedContent.scrollHeight + "px";
+        requestAnimationFrame(() => {
+          openedContent.style.height = 0;
+        });
+        openedContent.addEventListener("transitionend", function handler() {
+          opened.classList.remove("open");
+          openedContent.removeEventListener("transitionend", handler);
+        });
+      }
+
+      if (!isOpen) {
+        // 展開動畫
+        acc.classList.add("open");
+        content.style.height = content.scrollHeight + "px";
+        content.addEventListener("transitionend", function handler() {
+          if (acc.classList.contains("open")) {
+            content.style.height = "auto"; // 展開後自動高度
+          }
+          content.removeEventListener("transitionend", handler);
+        });
+      } else {
+        // 收合動畫
+        content.style.height = content.scrollHeight + "px";
+        requestAnimationFrame(() => {
+          content.style.height = 0;
+        });
+        content.addEventListener("transitionend", function handler() {
+          acc.classList.remove("open");
+          content.removeEventListener("transitionend", handler);
+        });
+      }
+    });
+  });
 
   // 📤 分享結果 ＋ 🏠 回到首頁
   const btnContainer = document.createElement("div");

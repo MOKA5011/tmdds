@@ -875,10 +875,40 @@ footer {
   /* Safari 支援 */
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  padding: 24px;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   transition: background 0.3s, box-shadow 0.3s;
   color: #222;
   /* 文字顏色改深色，玻璃感更清楚 */
+}
+
+.accordion-header {
+  cursor: pointer;
+  position: relative;
+  padding-right: 20px;
+}
+
+.accordion-header::after {
+  content: "▶";
+  position: absolute;
+  right: 0;
+  transition: transform 0.3s ease;
+}
+
+.accordion.open .accordion-header::after {
+  transform: rotate(90deg);
+}
+
+.accordion-content {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  transition: height 0.4s ease, opacity 0.4s ease;
+}
+
+.accordion.open .accordion-content {
+  opacity: 1;
 }
 
 .score-bar-container {
