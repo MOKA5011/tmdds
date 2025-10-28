@@ -32,7 +32,7 @@ addEventListener("load", () => {
     setTimeout(() => {
       preloader.classList.add("fade-out");
       setTimeout(() => preloader.remove(), 850);
-    }, 300); // ← 這裡就是延遲 1 秒
+    }, 300); // ← 這裡就是延遲 300 毫秒
   }
   if (getComputedStyle(intro).display === "none") intro.style.display = "flex";
 }, { once:true });
