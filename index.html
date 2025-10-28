@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-<canvas id="starfield"></canvas>
 
 <head>
   <meta charset="UTF-8" />
@@ -9,7 +8,8 @@
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="icon" href="logo.png" type="image/png">
   <link rel="stylesheet" href="css/style.css" />
-  
+  <link rel="stylesheet" href="css/intro.css" />
+
   <!-- AOS 動態效果 -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -19,6 +19,8 @@
 </head>
 
 <body class="main-site">
+  <canvas id="starfield"></canvas>
+
   <div id="preloader">
     <div class="preloader-content">
       <img src="assets/images/logo.png" alt="網站 LOGO" class="preloader-logo">
@@ -37,40 +39,67 @@
     </div>
   </div>
 
+
+<!-- 🎬 Intro 開場動畫（圖片版） -->
+<div id="intro" aria-label="Intro Animation" role="dialog" aria-modal="true">
+  <img src="assets/images/logo.png" alt="脫癮而出 Logo" id="introLogoImg" class="intro-logo glitch">
+  <p class="subtitle">Escape the Screen</p>
+  <button id="startBtn" type="button">開始</button>
+  <canvas id="fragmentCanvas"></canvas>
+  <audio id="glitchSound" preload="auto">
+    <source src="assets/sounds/glitch-start.mp3" type="audio/mpeg">
+  </audio>
+</div>
+
   <!-- 導覽列 -->
-<header class="card-nav-container">
-  <nav class="card-nav" id="cardNav">
-    <div class="card-nav-top">
-      <div class="hamburger-menu" id="hamburgerBtn">
-        <div class="hamburger-line"></div>
-        <div class="hamburger-line"></div>
+  <header class="card-nav-container">
+    <nav class="card-nav" id="cardNav">
+      <div class="card-nav-top">
+        <div class="hamburger-menu" id="hamburgerBtn">
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+        </div>
+
+        <div class="logo-container">
+          <img src="assets/images/logo.png" alt="主 Logo" class="logo" />
+          <img src="assets/images/logo-02.png" alt="文字 Logo" class="logo-text" />
+        </div>
+
+        <button class="card-nav-cta-button">回到首頁</button>
       </div>
 
-      <div class="logo-container">
-        <img src="assets/images/logo.png" alt="主 Logo" class="logo" />
-        <img src="assets/images/logo-02.png" alt="文字 Logo" class="logo-text" />
-      </div>
+      <div class="card-nav-content">
+        <div class="nav-card" style="background:#f5f5f5; color:#333;">
+          <div class="nav-card-label">導覽選單</div>
+          <div class="nav-card-links">
+            <a href="#hero" class="nav-card-link">首頁</a>
+            <a href="##introSection" class="nav-card-link">專題介紹</a>
+            <a href="#characters" class="nav-card-link">角色介紹</a>
+            <a href="#dreams" class="nav-card-link">夢境展示</a>
+            <a href="#production" class="nav-card-link">製作過程</a>
+            <a href="#showcase" class="nav-card-link">成果展示</a>
+            <a href="#team" class="nav-card-link">團隊介紹</a>
+            <a href="#outlook" class="nav-card-link">回饋</a>
+          </div>
+        </div>
 
-      <button class="card-nav-cta-button">回到首頁</button>
-    </div>
-
-    <div class="card-nav-content">
-      <div class="nav-card" style="background:#f5f5f5; color:#333;">
-        <div class="nav-card-label">導覽選單</div>
-        <div class="nav-card-links">
-          <a href="#hero" class="nav-card-link">首頁</a>
-          <a href="#intro" class="nav-card-link">專題介紹</a>
-          <a href="#characters" class="nav-card-link">角色介紹</a>
-          <a href="#dreams" class="nav-card-link">夢境展示</a>
-          <a href="#production" class="nav-card-link">製作過程</a>
-          <a href="#showcase" class="nav-card-link">成果展示</a>
-          <a href="#team" class="nav-card-link">團隊介紹</a>
-          <a href="#outlook" class="nav-card-link">回饋</a>
+        <div class="nav-card" style="background:#f5f5f5; color:#333;">
+          <div class="nav-card-label">導覽選單</div>
+          <div class="nav-card-links">
+            <a href="#hero" class="nav-card-link">首頁</a>
+            <a href="#introSection" class="nav-card-link">專題介紹</a>
+            <a href="#characters" class="nav-card-link">角色介紹</a>
+            <a href="#dreams" class="nav-card-link">夢境展示</a>
+            <a href="#production" class="nav-card-link">製作過程</a>
+            <a href="#showcase" class="nav-card-link">成果展示</a>
+            <a href="#team" class="nav-card-link">團隊介紹</a>
+            <a href="#outlook" class="nav-card-link">回饋</a>
+          </div>
         </div>
       </div>
-    </div>
-  </nav>
-</header>
+
+    </nav>
+  </header>
 
 
   <!-- 首頁封面 -->
@@ -82,7 +111,7 @@
   </section>
 
   <!-- 專題介紹 -->
-  <section id="intro" class="section">
+  <section id="introSection" class="section">
     <div class="container">
       <!-- 左側文字 -->
       <div class="text" data-aos="fade-up">
@@ -379,6 +408,7 @@
 
   <!-- 啟動 AOS -->
   <script src="js/modal.js"></script>
+  <script src="js/intro.js"></script>
   <script>
     AOS.init({
       duration: 1000,

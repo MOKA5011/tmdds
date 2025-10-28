@@ -1,0 +1,224 @@
+/* ===== 層級 ===== */
+#preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #000;
+    transition: opacity .8s
+}
+
+#preloader.fade-out {
+    opacity: 0;
+    pointer-events: none
+}
+
+#intro {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at center, #000 60%, #050505);
+    transition: opacity 1.5s ease;
+    overflow: hidden;
+}
+
+#intro.fade-out {
+    opacity: 0;
+    pointer-events: none
+}
+
+#intro.fade-out::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    opacity: 0;
+    animation: introFlash 420ms ease 120ms both;
+}
+
+@keyframes introFlash {
+    0% {
+        opacity: 0
+    }
+
+    40% {
+        opacity: 1
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+/* ===== Logo（圖片版）+ Glitch ===== */
+.intro-logo {
+    position: relative;
+    width: 220px;
+    max-width: 80vw;
+    filter: drop-shadow(0 0 15px #35b597) drop-shadow(0 0 30px #35b597);
+    animation: flicker 2s infinite, glowPulse 3s ease-in-out infinite alternate;
+}
+
+.subtitle {
+    color: #b0ffff;
+    font-size: 1.05rem;
+    margin-top: .6rem;
+    opacity: .85;
+}
+
+#startBtn {
+    margin-top: 32px;
+    padding: 12px 30px;
+    border: 0;
+    border-radius: 10px;
+    background: #35b597;
+    color: #000;
+    font-weight: 700;
+    font-size: 1.05rem;
+    cursor: pointer;
+    box-shadow: 0 0 12px #35b597, 0 0 24px #35b59766;
+    transition: .25s;
+}
+
+#startBtn:hover {
+    background: #fff;
+    transform: translateY(-1px) scale(1.04)
+}
+
+.intro-logo.glitch::before,
+.intro-logo.glitch::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("assets/images/logo.png") no-repeat center/contain;
+    mix-blend-mode: screen;
+}
+
+.intro-logo.glitch::before {
+    animation: glitch-img-1 2s infinite linear alternate-reverse;
+    filter: drop-shadow(-2px 0 magenta)
+}
+
+.intro-logo.glitch::after {
+    animation: glitch-img-2 3s infinite linear alternate-reverse;
+    filter: drop-shadow(2px 0 lime)
+}
+
+@keyframes glitch-img-1 {
+    0% {
+        clip-path: inset(0 0 80% 0);
+        transform: translate(-2px, -2px)
+    }
+
+    25% {
+        clip-path: inset(10% 0 60% 0);
+        transform: translate(2px, 2px)
+    }
+
+    50% {
+        clip-path: inset(80% 0 10% 0);
+        transform: translate(-1px, 1px)
+    }
+
+    75% {
+        clip-path: inset(30% 0 40% 0);
+        transform: translate(1px, -2px)
+    }
+
+    100% {
+        clip-path: inset(60% 0 30% 0);
+        transform: translate(-2px, 2px)
+    }
+}
+
+@keyframes glitch-img-2 {
+    0% {
+        clip-path: inset(60% 0 20% 0);
+        transform: translate(2px, 1px)
+    }
+
+    25% {
+        clip-path: inset(0 0 70% 0);
+        transform: translate(-1px, -2px)
+    }
+
+    50% {
+        clip-path: inset(30% 0 40% 0);
+        transform: translate(2px, 2px)
+    }
+
+    75% {
+        clip-path: inset(10% 0 60% 0);
+        transform: translate(-2px, 0)
+    }
+
+    100% {
+        clip-path: inset(60% 0 20% 0);
+        transform: translate(0, 0)
+    }
+}
+
+/* ===== 粒子畫布 ===== */
+#fragmentCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0
+}
+
+/* ===== 輔助動畫 ===== */
+@keyframes flicker {
+
+    0%,
+    18%,
+    20%,
+    22%,
+    25%,
+    53%,
+    55%,
+    100% {
+        opacity: 1
+    }
+
+    19%,
+    21%,
+    23%,
+    24%,
+    54% {
+        opacity: .4
+    }
+}
+
+@keyframes glowPulse {
+    from {
+        text-shadow: 0 0 10px #35b597, 0 0 30px #35b597
+    }
+
+    to {
+        text-shadow: 0 0 40px #35b597, 0 0 80px #35b597
+    }
+}
+
+/* 無動畫偏好 */
+@media (prefers-reduced-motion:reduce) {
+
+    #intro,
+    #preloader,
+    #startBtn {
+        transition: none
+    }
+
+    .intro-logo {
+        animation: none
+    }
+
+    .intro-logo.glitch::before,
+    .intro-logo.glitch::after {
+        animation: none
+    }
+}

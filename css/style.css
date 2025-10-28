@@ -318,32 +318,32 @@ main {
 }
 
 /* 專題介紹 */
-#intro .container {
+#introSection .container {
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
   align-items: flex-start;
 }
 
-#intro .text,
-#intro .image {
+#introSection .text,
+#introSection .image {
   flex: 1;
   order: 1;
 }
 
-#intro img {
+#introSection img {
   width: 100%;
   border-radius: 12px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-#intro .image-grid {
+#introSection .image-grid {
   flex: 1;
   order: 2;
 }
 
 
-#intro .btn {
+#introSection .btn {
   display: inline-block;
   margin-top: 10px;
 }
@@ -937,7 +937,7 @@ footer {
 }
 
 /* 區塊交錯背景色 */
-#intro,
+#introSection,
 #dreams,
 #outlook,
 #characters,
@@ -1449,15 +1449,15 @@ footer {
 }
 
 @media (max-width: 768px) {
-  #intro .container {
+  #introSection .container {
     flex-direction: column;
   }
 
-  #intro .text {
+  #introSection .text {
     order: 1;
   }
 
-  #intro .image-grid {
+  #introSection .image-grid {
     order: 2;
   }
 
