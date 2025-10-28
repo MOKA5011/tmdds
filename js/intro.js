@@ -13,7 +13,7 @@
 
   // 保證層級
   intro.style.zIndex = "10001";
-  if (preloader) preloader.style.zIndex = "10000";
+  if (preloader) preloader.style.zIndex = "10002";
 
   // 鎖滾動
   function lockScroll(){ html.style.overflow = "hidden"; body.style.overflow = "hidden"; }
@@ -26,13 +26,17 @@
   resizeCanvas();
 
   // 頁面載入→移除 preloader
-  addEventListener("load", () => {
-    if (preloader) {
+addEventListener("load", () => {
+  if (preloader) {
+    // 🕒 延遲 1 秒再開始淡出動畫
+    setTimeout(() => {
       preloader.classList.add("fade-out");
       setTimeout(() => preloader.remove(), 850);
-    }
-    if (getComputedStyle(intro).display === "none") intro.style.display = "flex";
-  }, { once:true });
+    }, 300); // ← 這裡就是延遲 1 秒
+  }
+  if (getComputedStyle(intro).display === "none") intro.style.display = "flex";
+}, { once:true });
+
 
   // 圖片像素 → 粒子
   function particlesFromImageRect(img, rect){

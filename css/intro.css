@@ -2,7 +2,7 @@
 #preloader {
     position: fixed;
     inset: 0;
-    z-index: 10000;
+    z-index: 10002;
     background: #000;
     transition: opacity .8s
 }
@@ -31,27 +31,20 @@
 }
 
 #intro.fade-out::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: #fff;
-    opacity: 0;
-    animation: introFlash 420ms ease 120ms both;
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at center, rgba(255,255,255,0.4) 0%, transparent 80%);
+  opacity:0;
+  animation:introSoftGlow 1s ease both;
 }
 
-@keyframes introFlash {
-    0% {
-        opacity: 0
-    }
-
-    40% {
-        opacity: 1
-    }
-
-    100% {
-        opacity: 0
-    }
+@keyframes introSoftGlow {
+  0%   { opacity:0; }
+  50%  { opacity:0.5; }
+  100% { opacity:0; }
 }
+
 
 /* ===== Logo（圖片版）+ Glitch ===== */
 .intro-logo {
