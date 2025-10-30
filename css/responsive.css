@@ -1,0 +1,203 @@
+/* ===== 全站 RWD ===== */
+
+/* 手機～平板：導覽列折疊 */
+@media (max-width:1124px) {
+    .navbar {
+        flex-wrap: wrap;
+        padding: 10px 20px;
+    }
+
+    .navbar-toggle {
+        display: block;
+    }
+
+    .navbar nav {
+        width: 100%;
+        display: none;
+    }
+
+    .navbar nav.show {
+        display: block;
+    }
+
+    .navbar ul {
+        flex-direction: column;
+        padding: 10px 0;
+        margin: 0;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .navbar ul li a {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* 768 down：專題介紹改直排、橫向滾動改縱向 */
+@media (max-width:768px) {
+    #introSection .container {
+        flex-direction: column;
+    }
+
+    #introSection .text {
+        order: 1;
+    }
+
+    #introSection .image-grid {
+        order: 2;
+    }
+
+    .image-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .scroll-gallery {
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-height: 80vh;
+    }
+
+    .scroll-track {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .scroll-track img {
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        object-fit: cover;
+    }
+
+    /* 詳細面板 */
+    .detail-content {
+        width: 90%;
+        max-height: 70vh;
+        padding: 15px;
+    }
+
+    .arrow.left {
+        left: 10px
+    }
+
+    .arrow.right {
+        right: 10px
+    }
+
+    /* 卡片導覽 */
+    .card-nav-container {
+        width: 90%;
+        top: 1.2em;
+    }
+
+    .card-nav-top {
+        padding: .5rem 1rem;
+        justify-content: space-between;
+    }
+
+    .hamburger-menu {
+        order: 2;
+    }
+
+    .logo-container {
+        position: static;
+        transform: none;
+        order: 1;
+    }
+
+    .card-nav-cta-button {
+        display: none;
+    }
+
+    .card-nav-content {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: .5rem;
+        justify-content: flex-start;
+    }
+
+    .nav-card {
+        height: auto;
+        min-height: 60px;
+        flex: 1 1 auto;
+        max-height: none;
+    }
+
+    .nav-card-label {
+        font-size: 18px;
+    }
+
+    .nav-card-link {
+        font-size: 15px;
+    }
+}
+
+/* 600 down：文字/按鈕縮小、Hero 調整 */
+@media (max-width:600px) {
+    body {
+        font-size: 15px;
+        padding: 0;
+    }
+
+    .section {
+        padding: 60px 15px;
+    }
+
+    .page-header h1 {
+        font-size: 2rem;
+    }
+
+    .page-header p {
+        font-size: 1rem;
+    }
+
+    .btn {
+        font-size: .95rem;
+        padding: 10px 18px;
+    }
+
+    .quiz-question {
+        padding: 16px;
+        font-size: .95rem;
+    }
+
+    .quiz-options label {
+        font-size: .95rem;
+        padding: 10px;
+    }
+
+    .gallery img {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .member img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .hero-image {
+        max-width: 98vw;
+        width: 100%;
+    }
+
+    .hero-section p {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+}
+
+/* 480 down：圖片網格單欄 */
+@media (max-width:480px) {
+    .image-grid {
+        grid-template-columns: 1fr;
+    }
+}

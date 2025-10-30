@@ -20,7 +20,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: radial-gradient(circle at center, #000 60%, #050505);
+    background: radial-gradient(circle at center, #320038 10%, #08004d 25%, #000000 60%);
     transition: opacity 1.5s ease;
     overflow: hidden;
 }
@@ -47,12 +47,12 @@
 
 
 /* ===== Logo（圖片版）+ Glitch ===== */
-.intro-logo {
-    position: relative;
-    width: 220px;
-    max-width: 80vw;
-    filter: drop-shadow(0 0 15px #35b597) drop-shadow(0 0 30px #35b597);
-    animation: flicker 2s infinite, glowPulse 3s ease-in-out infinite alternate;
+.intro-logo{
+  position:relative;
+  width:220px; max-width:80vw;
+  filter: url(#glitchFilter);
+  /* 額外質感：發光 */
+  filter: url(#glitchFilter) drop-shadow(0 0 8px #00e0ff);
 }
 
 .subtitle {
@@ -81,78 +81,15 @@
     transform: translateY(-1px) scale(1.04)
 }
 
-.intro-logo.glitch::before,
-.intro-logo.glitch::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: url("assets/images/logo.png") no-repeat center/contain;
-    mix-blend-mode: screen;
+/* 因為用了 SVG 濾鏡，給它時序上偶發的抖動更像故障 */
+@keyframes jitter {
+  0%,100% { transform: translate(0,0) }
+  20%     { transform: translate(-1px, 0.5px) }
+  40%     { transform: translate(1px, -0.5px) }
+  60%     { transform: translate(-0.5px, -1px) }
+  80%     { transform: translate(0.5px, 1px) }
 }
-
-.intro-logo.glitch::before {
-    animation: glitch-img-1 2s infinite linear alternate-reverse;
-    filter: drop-shadow(-2px 0 magenta)
-}
-
-.intro-logo.glitch::after {
-    animation: glitch-img-2 3s infinite linear alternate-reverse;
-    filter: drop-shadow(2px 0 lime)
-}
-
-@keyframes glitch-img-1 {
-    0% {
-        clip-path: inset(0 0 80% 0);
-        transform: translate(-2px, -2px)
-    }
-
-    25% {
-        clip-path: inset(10% 0 60% 0);
-        transform: translate(2px, 2px)
-    }
-
-    50% {
-        clip-path: inset(80% 0 10% 0);
-        transform: translate(-1px, 1px)
-    }
-
-    75% {
-        clip-path: inset(30% 0 40% 0);
-        transform: translate(1px, -2px)
-    }
-
-    100% {
-        clip-path: inset(60% 0 30% 0);
-        transform: translate(-2px, 2px)
-    }
-}
-
-@keyframes glitch-img-2 {
-    0% {
-        clip-path: inset(60% 0 20% 0);
-        transform: translate(2px, 1px)
-    }
-
-    25% {
-        clip-path: inset(0 0 70% 0);
-        transform: translate(-1px, -2px)
-    }
-
-    50% {
-        clip-path: inset(30% 0 40% 0);
-        transform: translate(2px, 2px)
-    }
-
-    75% {
-        clip-path: inset(10% 0 60% 0);
-        transform: translate(-2px, 0)
-    }
-
-    100% {
-        clip-path: inset(60% 0 20% 0);
-        transform: translate(0, 0)
-    }
-}
+#glitchLogo { animation: jitter 0.9s steps(6,end) infinite; }
 
 /* ===== 粒子畫布 ===== */
 #fragmentCanvas {
@@ -215,3 +152,100 @@
         animation: none
     }
 }
+
+/* 讓圖片一直掛著 SVG 濾鏡 */
+#introLogoImg.glitch { filter: url(#glitchFilter); }
+
+/* 啟動閃爍（和 SVG 濾鏡同時播放） */
+.logo-flicker { animation: logoFlicker 1.8s ease-in-out infinite; }
+
+@keyframes logoFlicker {
+  0%{
+    opacity:0;
+    filter: url(#glitchFilter) brightness(.4) contrast(1.2)
+            drop-shadow(2px 0 2px red) drop-shadow(-2px 0 2px cyan);
+  }
+  15%{
+    opacity:.9;
+    filter: url(#glitchFilter) brightness(1.3) contrast(1.4)
+            drop-shadow(3px 0 3px red) drop-shadow(-3px 0 3px cyan);
+  }
+  30%{
+    opacity:.4;
+    filter: url(#glitchFilter) brightness(.8) contrast(1.2)
+            drop-shadow(1px 0 2px red) drop-shadow(-1px 0 2px cyan);
+  }
+  45%{
+    opacity:1;
+    filter: url(#glitchFilter) brightness(1.2) contrast(1.3)
+            drop-shadow(2px 0 2px red) drop-shadow(-2px 0 2px cyan);
+  }
+  60%{
+    opacity:.6;
+    filter: url(#glitchFilter) brightness(.9) contrast(1.1)
+            drop-shadow(2px 0 2px cyan) drop-shadow(-2px 0 2px red);
+  }
+  80%{
+    opacity:1;
+    filter: url(#glitchFilter) brightness(1.2) contrast(1.2)
+            drop-shadow(1px 0 1px red) drop-shadow(-1px 0 1px cyan);
+  }
+  100%{
+    opacity:1;
+    filter: url(#glitchFilter) brightness(1) contrast(1);
+  }
+}
+/* ── 常駐：SVG 濾鏡 + 色偏（RGB 分色） ───────────────── */
+#introLogoImg.glitch {
+  /* 先套 SVG 濾鏡，再疊色偏與對比，順序很重要！ */
+  filter: url(#glitchFilter)
+          brightness(1.05) contrast(1.15)
+          drop-shadow(2px 0 2px #ff0044)
+          drop-shadow(-2px 0 2px #00ffff);
+  /* 持續的微抖動畫（不刺眼） */
+  animation: glitchRGBShift 2.4s ease-in-out infinite alternate;
+  will-change: transform, filter;
+}
+
+/* CRT 風微抖＋色偏交換（柔和） */
+@keyframes glitchRGBShift {
+  0% {
+    transform: translate(0,0) skew(0deg);
+    filter: url(#glitchFilter)
+            brightness(1.05) contrast(1.15)
+            drop-shadow(2px 0 2px #ff0044)
+            drop-shadow(-2px 0 2px #00ffff);
+  }
+  25% {
+    transform: translate(1px,-1px) skew(-0.4deg);
+    filter: url(#glitchFilter)
+            brightness(1.08) contrast(1.18)
+            drop-shadow(2px 0 2px #00ffff)
+            drop-shadow(-2px 0 2px #ff0044);
+  }
+  50% {
+    transform: translate(-1px,1px) skew(0.3deg);
+    filter: url(#glitchFilter)
+            brightness(1.06) contrast(1.16)
+            drop-shadow(1px 0 1px #00ffff)
+            drop-shadow(-1px 0 1px #ff0044);
+  }
+  75% {
+    transform: translate(0,1px) skew(0deg);
+    filter: url(#glitchFilter)
+            brightness(1.08) contrast(1.18)
+            drop-shadow(2px 0 2px #ff0044)
+            drop-shadow(-2px 0 2px #00ffff);
+  }
+  100% {
+    transform: translate(0,0) skew(0deg);
+    filter: url(#glitchFilter)
+            brightness(1.05) contrast(1.12)
+            drop-shadow(1px 0 1px #00ffff)
+            drop-shadow(-1px 0 1px #ff0044);
+  }
+}
+
+/* 可點提示（你現在用點圖片開始） */
+#introLogoImg { cursor: pointer; }
+#introLogoImg:hover { opacity: .85; transition: opacity .2s ease; }

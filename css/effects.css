@@ -1,22 +1,165 @@
-/* ===========================
-   Effects / 背景與特效
-=========================== */
+/* ===== 背景 / 星空 / 特效與動畫 ===== */
 
-/* 背景動畫：漸層 */
+/* 全站動態漸層背景（主站） */
+body {
+    background: linear-gradient(-45deg, #0d0d0d, #0d0d3f, #a0b6f3, #0f3460);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    color: #fff;
+}
+
 @keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
 }
 
-/* 星空背景 */
+/* 星空畫布 */
 #starfield {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: black;
-  z-index: -1;
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: #000;
 }
 
+/* Glitch 故障感 + RGB 偏移（結果區使用） */
+.glitch-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.glitch-effect::before,
+.glitch-effect::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    mix-blend-mode: screen;
+    opacity: .6;
+    animation: glitchMove .3s infinite;
+}
+
+.glitch-effect::before {
+    filter: drop-shadow(-2px 0 #ff003c);
+}
+
+.glitch-effect::after {
+    filter: drop-shadow(2px 0 #00e5ff);
+}
+
+@keyframes glitchMove {
+    0% {
+        clip-path: inset(20% 0 60% 0);
+        transform: translate(-2px, -2px);
+    }
+
+    20% {
+        clip-path: inset(40% 0 20% 0);
+        transform: translate(2px, 2px);
+    }
+
+    40% {
+        clip-path: inset(10% 0 80% 0);
+        transform: translate(-2px, 2px);
+    }
+
+    60% {
+        clip-path: inset(30% 0 40% 0);
+        transform: translate(2px, -2px);
+    }
+
+    80% {
+        clip-path: inset(25% 0 50% 0);
+        transform: translate(-1px, 1px);
+    }
+
+    100% {
+        clip-path: inset(0);
+        transform: none;
+    }
+}
+
+/* 動畫通用 */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(50px)
+    }
+
+    to {
+        opacity: 1;
+        transform: none
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px)
+    }
+
+    to {
+        opacity: 1;
+        transform: none
+    }
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1
+    }
+
+    50% {
+        opacity: .3
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0)
+    }
+
+    25% {
+        transform: translateX(-5px)
+    }
+
+    50% {
+        transform: translateX(5px)
+    }
+
+    75% {
+        transform: translateX(-5px)
+    }
+
+    100% {
+        transform: translateX(0)
+    }
+}
+
+.flash-warning {
+    animation: flashRed 1s ease-in-out 3;
+}
+
+@keyframes flashRed {
+
+    0%,
+    50%,
+    100% {
+        background: #fff
+    }
+
+    25%,
+    75% {
+        background: rgba(255, 0, 0, .6)
+    }
+}

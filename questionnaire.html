@@ -1,43 +1,50 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>脫癮而出｜網路使用風險問卷</title>
   <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- 只載需要的模組（問卷頁精簡版） -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <!-- 若這頁沒有頂部導覽列，可省略 navbar.css -->
+  <link rel="stylesheet" href="css/quiz.css">
+  <link rel="stylesheet" href="css/preloader.css">
+  <link rel="stylesheet" href="css/effects.css">    <!-- 若不需要動態背景可移除 -->
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/overrides.css">
 </head>
 
 <body class="questionnaire-site">
+  <!-- 🌀 Preloader（與主站一致；這頁不需要 Intro 動畫） -->
   <div id="preloader">
     <div class="preloader-content">
       <img src="assets/images/logo.png" alt="網站 LOGO" class="preloader-logo">
       <div class="preloader-cube">
-        <div class="cube">
-          <div class="cube__inner"></div>
-        </div>
-        <div class="cube">
-          <div class="cube__inner"></div>
-        </div>
-        <div class="cube">
-          <div class="cube__inner"></div>
-        </div>
+        <div class="cube"><div class="cube__inner"></div></div>
+        <div class="cube"><div class="cube__inner"></div></div>
+        <div class="cube"><div class="cube__inner"></div></div>
       </div>
       <p class="loading-text">載入中，請稍候...</p>
     </div>
   </div>
+
   <main>
     <!-- 姓名輸入頁 -->
     <section id="namePage" class="section">
       <div class="page-header">
         <h1>網路使用風險問卷</h1>
-        <n2>請誠實填寫以下問卷，您的資料將被嚴格保密<br />
-          以下問題沒有對錯，測驗結果只是提供一個參考</n2>
-        <p>請先輸入您的姓名以開始答題</p>
+        <h2 style="font-size:1.1rem; font-weight:600; margin-top:.5rem;">
+          請誠實填寫以下問卷，您的資料將被嚴格保密<br>
+          問題沒有對錯，結果僅供自我參考
+        </h2>
+        <p style="margin-top:8px;">請先輸入您的姓名以開始答題</p>
       </div>
-      <div style="max-width:400px;margin:auto;">
-        <input type="text" id="username" placeholder="請輸入姓名" required />
+      <div style="max-width:400px;margin:auto;display:flex;gap:10px;">
+        <input type="text" id="username" placeholder="請輸入姓名" required
+               style="flex:1;padding:12px 14px;border-radius:8px;border:1px solid #ddd;">
         <button id="startQuizBtn" class="btn">開始答題</button>
       </div>
     </section>
@@ -56,7 +63,7 @@
 
       <div id="pageContainer"></div>
 
-      <div class="navigation" style="text-align:center;">
+      <div class="navigation" style="text-align:center; margin-top:10px;">
         <button type="button" id="prevBtn" class="btn">上一頁</button>
         <button type="button" id="nextBtn" class="btn">下一頁</button>
         <button type="submit" id="submitBtn" class="btn" style="display:none;">提交問卷</button>
@@ -77,7 +84,31 @@
     <p>© 2025 脫癮而出專題團隊 | 聯絡：email@example.com</p>
   </footer>
 
+  <!-- 問卷邏輯（你現有的檔） -->
   <script src="js/questionnaire_script.js"></script>
-</body>
 
+  <!-- 🔧 這頁專用：Preloader 控制（延遲 1 秒淡出、解鎖滾動）-->
+  <script>
+    (function(){
+      const html = document.documentElement;
+      const body = document.body;
+      const preloader = document.getElementById('preloader');
+
+      function lockScroll(){ html.style.overflow='hidden'; body.style.overflow='hidden'; }
+      function unlockScroll(){ html.style.overflow=''; body.style.overflow=''; }
+
+      // 啟動先鎖住
+      lockScroll();
+
+      window.addEventListener('load', () => {
+        if (!preloader) { unlockScroll(); return; }
+        // 延遲 1 秒再淡出（你剛剛的需求）
+        setTimeout(() => {
+          preloader.classList.add('fade-out');
+          setTimeout(() => { preloader.remove(); unlockScroll(); }, 850);
+        }, 1000);
+      }, { once:true });
+    })();
+  </script>
+</body>
 </html>

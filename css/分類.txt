@@ -1,8 +1,0 @@
-css/
-│── base.css          # 全域設定、reset、變數
-│── layout.css        # 版面配置（header、footer、grid、section）
-│── components.css    # 元件（按鈕、卡片、表單、modal）
-│── sections.css      # 各區塊專屬樣式（hero、intro、characters、dreams…）
-│── animations.css    # 動畫與過渡效果
-│── utilities.css     # 工具類別（間距、對齊、隱藏…）
-│── responsive.css    # 響應式調整

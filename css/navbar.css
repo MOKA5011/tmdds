@@ -1,87 +1,246 @@
-/* ===========================
-   Navbar / 導覽列
-=========================== */
+/* =========================================
+   CardNav.css — Refactored
+   ========================================= */
 
-.navbar {
-  position: fixed;
+/* ---------- 變數（主題 / 尺寸 / 動畫） ---------- */
+:root {
+  /* 色彩 */
+  --cn-base-bg: #53535383;
+  --cn-border: rgba(255, 255, 255, 0.10);
+  --cn-text: #ffffff;
+  --cn-cta-bg: #111111;
+  --cn-cta-bg-hover: #333333;
+  --cn-focus: #6ea8ff;
+
+  /* 尺寸 */
+  --cn-width-max: 960px;
+  --cn-radius: 12px;
+  --cn-topbar-h: 60px;
+  --cn-gap: 12px;
+  --cn-pad: 0.6rem;
+
+  /* 陰影/玻璃感 */
+  --cn-shadow: 0 6px 24px rgba(0, 0, 0, .12);
+  --cn-card-inset: inset 0 0 0 1px rgba(255,255,255,.06);
+
+  /* 動畫 */
+  --cn-ease: cubic-bezier(.22,.61,.36,1);
+  --cn-dur-fast: .2s;
+  --cn-dur: .25s;
+  --cn-dur-slow: .4s;
+}
+
+/* ---------- 容器 ---------- */
+.card-nav-container {
+  position: absolute;
+  top: 2em;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: var(--cn-width-max);
+  z-index: 99;
+  box-sizing: border-box;
+}
+
+/* ---------- 外框（會做高度動畫） ---------- */
+.card-nav {
+  position: relative;
+  display: block;
+  height: var(--cn-topbar-h);
+  overflow: hidden;               /* 與 GSAP 搭配 */
+  padding: 0;
+  color: var(--cn-text);
+  background: var(--cn-base-bg);
+  border: 0.5px solid var(--cn-border);
+  border-radius: var(--cn-radius);
+  box-shadow: var(--cn-shadow);
+  will-change: height;
+  backdrop-filter: saturate(120%) blur(4px);
+}
+
+/* ---------- 上方工具列 ---------- */
+.card-nav-top {
+  position: sticky;               /* 內容展開時避免跳動 */
   top: 0;
   left: 0;
-  width: 100%;
+  right: 0;
+  height: var(--cn-topbar-h);
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
-  z-index: 1000;
+  justify-content: space-between;
+  padding: .5rem .6rem .55rem 1.1rem;
+  z-index: 2;
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #fff;
-}
-
-.navbar nav ul {
-  list-style: none;
-  display: flex;
-  gap: 20px;
-}
-
-.navbar nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: color 0.3s ease;
-}
-
-.navbar nav ul li a:hover {
-  color: #0078ff;
-}
-
-/* 漢堡選單（手機用） */
-.navbar-toggle {
-  display: none;
+/* ---------- 漢堡 ---------- */
+.hamburger-menu {
+  height: 100%;
+  display: inline-flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   cursor: pointer;
+  user-select: none;
+  color: inherit;                 /* 允許外層改色 */
+}
+.hamburger-menu:focus {
+  outline: 2px solid var(--cn-focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.hamburger-menu:hover .hamburger-line { opacity: .8; }
+
+.hamburger-line {
+  width: 30px;
+  height: 2px;
+  background-color: currentColor;
+  transform-origin: 50% 50%;
+  transition:
+    transform var(--cn-dur) var(--cn-ease),
+    opacity var(--cn-dur-fast) linear,
+    margin var(--cn-dur) var(--cn-ease);
+}
+.hamburger-menu.open .hamburger-line:first-child {
+  transform: translateY(4px) rotate(45deg);
+}
+.hamburger-menu.open .hamburger-line:last-child {
+  transform: translateY(-4px) rotate(-45deg);
 }
 
-.navbar-toggle span {
-  height: 3px;
-  width: 25px;
-  background: #fff;
-  margin: 4px 0;
-  border-radius: 2px;
+/* ---------- Logo ---------- */
+.logo-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  display: flex;
+  align-items: center;
+}
+.logo { height: 28px; }
+
+/* ---------- CTA 按鈕 ---------- */
+.card-nav-cta-button {
+  height: 100%;
+  padding: 0 1rem;
+  border: none;
+  border-radius: calc(var(--cn-radius) - 2px);
+  background: var(--cn-cta-bg);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color var(--cn-dur) var(--cn-ease),
+    transform .12s var(--cn-ease);
+}
+.card-nav-cta-button:hover { background: var(--cn-cta-bg-hover); }
+.card-nav-cta-button:active { transform: translateY(1px); }
+
+/* ---------- 展開內容（由 GSAP 控制可見/互動） ---------- */
+.card-nav-content {
+  position: relative;
+  left: 0; right: 0; top: 0;
+  margin-top: var(--cn-topbar-h);   /* 推到頂部列下方 */
+  padding: var(--cn-pad);
+  display: flex;
+  align-items: stretch;
+  gap: var(--cn-gap);
+  visibility: hidden;               /* 初始不可見（nav.js 以 autoAlpha 控制） */
+  pointer-events: none;             /* 初始不可互動 */
+  z-index: 1;
+}
+.card-nav.open .card-nav-content {
+  visibility: visible;              /* 備援（JS 也會切 autoAlpha/pointer-events） */
+  pointer-events: auto;
 }
 
-/* 手機版 RWD */
+/* ---------- 卡片 ---------- */
+.nav-card {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: calc(var(--cn-radius) - 2px);
+  position: relative;
+  user-select: none;
+  box-shadow: var(--cn-card-inset);
+  will-change: transform, opacity;  /* 與 GSAP 動畫一致 */
+}
+
+.nav-card-label {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+.nav-card-links {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15.5px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    opacity var(--cn-dur) linear,
+    transform .12s var(--cn-ease);
+}
+.nav-card-link:hover { opacity: .85; }
+.nav-card-link:active { transform: translateY(1px); }
+
+/* ---------- RWD ---------- */
 @media (max-width: 768px) {
-  .navbar nav {
+  .card-nav-container {
+    width: 92%;
+    top: 1.2em;
+  }
+
+  .card-nav-top {
+    padding: .5rem .8rem;
+  }
+
+  .logo-container {
+    position: static;
+    transform: none;
+  }
+
+  .card-nav-cta-button {
     display: none;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.9);
-    border-radius: 8px;
-    padding: 15px;
   }
 
-  .navbar nav.show {
-    display: block;
-  }
-
-  .navbar nav ul {
+  .card-nav-content {
     flex-direction: column;
+    align-items: stretch;
     gap: 10px;
+    padding: var(--cn-pad);
+    margin-top: var(--cn-topbar-h);
   }
 
-  .navbar-toggle {
-    display: flex;
+  .nav-card {
+    min-height: 64px;
   }
 
-  .logo-text img {
-    height: 32px;
-    width: auto;
-    vertical-align: middle;
-  }
+  .nav-card-label { font-size: 18px; }
+  .nav-card-link { font-size: 15px; }
 }
+
+/* === 滾動縮小狀態（compact） === */
+.card-nav.compact .card-nav-top { height: 46px; }
+.card-nav.compact { border-radius: 10px; box-shadow: 0 4px 18px rgba(0,0,0,.10); }
+
+/* 收合時（非 open）由 JS 直接把 nav 高度設為 46px；這裡同步視覺比例 */
+.card-nav.compact .logo { height: 22px; transition: height .2s ease; }
+.card-nav.compact .hamburger-line { width: 26px; transition: width .2s ease; }
+
+/* 展開時仍以 GSAP 控制 height:auto，compact 僅影響頂部列高度與風格 */
+.card-nav.open.card-nav.compact .card-nav-top { height: 46px; }
