@@ -1,4 +1,20 @@
 /* ===== 專題介紹（文字＋圖片網格＋橫向滾動） ===== */
+/* 專題介紹文字置中 */
+#introSection .text {
+  text-align: center;         /* 讓文字、標題、按鈕都置中 */
+  max-width: 800px;           /* 保持閱讀寬度，不會太寬 */
+  margin: 0 auto;             /* 讓區塊本身置中 */
+}
+
+#introSection .text h2 {
+  margin-bottom: 1rem;
+}
+
+#introSection .text p {
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
 #introSection .container {
     display: flex;
     flex-wrap: wrap;

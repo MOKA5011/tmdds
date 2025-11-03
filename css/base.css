@@ -1,4 +1,8 @@
 /* ===== 全域排版 / 主背景 / 容器與頁腳 ===== */
+html, body {
+  overflow-x: clip; /* ✅ 不產生水平滾動、但不裁內容（比 hidden 溫和） */
+}
+
 html {
     font-family: "Noto Sans TC", system-ui, sans-serif;
     line-height: 1.6;

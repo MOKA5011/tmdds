@@ -301,6 +301,7 @@
     setTimeout(() => { intro.remove(); unlockScroll(); }, CFG.introFadeOutMs + 50);
   }
 
+
   // 保險解鎖
   setTimeout(unlockScroll, 8000);
 })();

@@ -23,12 +23,17 @@ body {
 }
 
 /* 星空畫布 */
-#starfield {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background: #000;
+#starfield{
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: #000;
+  display: block;
+  pointer-events: none;
 }
+
 
 /* Glitch 故障感 + RGB 偏移（結果區使用） */
 .glitch-effect {
