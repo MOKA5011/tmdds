@@ -25,7 +25,7 @@ Promise.all([
   fetch('https://MOKA5011.github.io/tmdds/data/options.json').then(res => res.json()),
   fetch('https://MOKA5011.github.io/tmdds/data/themes.json').then(res => res.json())
 ]).then(([qData, oData, tData]) => {
-  questions = qData.slice(0, 15);
+  questions = qData.slice(0, 30);
   options = oData;
   themes = tData;
   renderPage();
