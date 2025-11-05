@@ -47,6 +47,48 @@ Promise.all([
 function saveAnswer(questionIndex, score) {
   answers[questionIndex] = score;
   updateProgressBar();
+  updateNextButtonState();
+}
+
+function handleAnswerSelection(questionIndex, score) {
+  saveAnswer(questionIndex, score);
+
+  requestAnimationFrame(() => {
+    const nextQuestion = document.querySelector(`.quiz-question[data-question-index="${questionIndex + 1}"]`);
+    if (nextQuestion) {
+      nextQuestion.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else {
+      const nextBtn = document.getElementById("nextBtn");
+      if (nextBtn) {
+        nextBtn.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  });
+}
+
+function isPageCompleted(pageIndex) {
+  const start = pageIndex * questionsPerPage;
+  const end = Math.min(start + questionsPerPage, questions.length);
+  for (let i = start; i < end; i++) {
+    if (answers[i] === undefined) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function updateNextButtonState() {
+  const nextBtn = document.getElementById("nextBtn");
+  if (!nextBtn) {
+    return;
+  }
+
+  if (currentPage >= questionPageCount) {
+    nextBtn.disabled = false;
+    return;
+  }
+
+  nextBtn.disabled = !isPageCompleted(currentPage);
 }
 
 // 更新進度條
@@ -85,18 +127,27 @@ function renderPage() {
     for (let i = start; i < end && i < questions.length; i++) {
       const qDiv = document.createElement("div");
       qDiv.className = "quiz-question";
-      qDiv.innerHTML = `<p><strong>第 ${i + 1} 題：</strong> ${questions[i]}</p>`;
+      qDiv.dataset.questionIndex = i;
+
+      const prompt = document.createElement("p");
+      prompt.innerHTML = `<strong>第 ${i + 1} 題：</strong> ${questions[i]}`;
+      qDiv.appendChild(prompt);
 
       const optDiv = document.createElement("div");
       optDiv.className = "quiz-options";
 
       options.forEach((opt) => {
-        const checked = answers[i] === opt.score ? "checked" : "";
-        optDiv.innerHTML += `
-          <label>
-            <input type="radio" name="q${i}" value="${opt.score}" ${checked}
-              onchange="saveAnswer(${i}, ${opt.score})"> ${opt.text}
-          </label>`;
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = `q${i}`;
+        input.value = opt.score;
+        input.checked = answers[i] === opt.score;
+        input.addEventListener("change", () => handleAnswerSelection(i, opt.score));
+
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(` ${opt.text}`));
+        optDiv.appendChild(label);
       });
 
       qDiv.appendChild(optDiv);
@@ -120,6 +171,8 @@ function renderPage() {
     nextBtn.style.display = "none";
     submitBtn.style.display = "inline-block";
   }
+
+  updateNextButtonState();
 }
 
 function renderReflectionPage(container) {

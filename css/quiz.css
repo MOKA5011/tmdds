@@ -7,7 +7,9 @@
     -webkit-backdrop-filter: blur(12px);
     box-shadow: 0 4px 24px rgba(0, 0, 0, .08);
     padding: 24px;
-    transition: background .3s, box-shadow .3s;
+    transition: background .3s, box-shadow .3s, transform .3s;
+    margin-bottom: 24px;
+    scroll-margin: 120px;
 }
 
 .quiz-question.open-ended textarea {
@@ -34,6 +36,7 @@
 .quiz-question:hover {
     background: rgba(255, 255, 255, .35);
     box-shadow: 0 8px 32px rgba(0, 0, 0, .12);
+    transform: translateY(-2px) scale(1.015);
 }
 
 .quiz-options {
@@ -53,6 +56,18 @@
 
 .quiz-options label:hover {
     background: rgba(230, 57, 70, .1);
+}
+
+#nextBtn:disabled {
+    background: #9aa0a6;
+    cursor: not-allowed;
+    opacity: .7;
+    transform: none;
+}
+
+#nextBtn:disabled:hover {
+    background: #9aa0a6;
+    transform: none;
 }
 
 /* 姓名輸入頁 */
@@ -244,6 +259,7 @@
 .result-buttons .btn {
     min-width: 160px;
 }
+
 
 /* 警示&動態 */
 .alert-box {
