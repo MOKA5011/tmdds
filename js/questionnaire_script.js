@@ -10,6 +10,15 @@ document.getElementById("startQuizBtn").addEventListener("click", () => {
   document.getElementById("quizForm").style.display = "block";
 });
 
+const MAX_SCORE = 300;
+const SCORE_STAGES = [
+  { max: 120, label: "第 1 階段：低度風險", description: "目前使用習慣相當穩定，請持續維持良好的作息與自我覺察。" },
+  { max: 240, label: "第 2 階段：需要留意", description: "偶爾會感到依賴或分心，建議安排固定的離線時間與替代活動。" },
+  { max: 360, label: "第 3 階段：風險浮現", description: "網路使用已出現影響日常生活的跡象，請試著調整使用時間與內容。" },
+  { max: 480, label: "第 4 階段：高度風險", description: "網路成癮風險偏高，建議與信任的家人或朋友討論並尋求支援。" },
+  { max: MAX_SCORE, label: "第 5 階段：嚴重警戒", description: "已達高度警戒，可能對身心造成明顯影響，建議尋求專業協助。" }
+];
+
 let questions = [];
 let options = [];
 let themes = {};
@@ -18,6 +27,7 @@ let currentPage = 0;
 const questionsPerPage = 5;
 let answers = {};
 let hasShownCompletionMessage = false;
+let selfReflectionResponse = "";
 
 // 載入 JSON 資料
 Promise.all([
@@ -94,6 +104,28 @@ function renderPage() {
     container.appendChild(qDiv);
   }
 
+  if (end >= questions.length) {
+    const openEnded = document.createElement("div");
+    openEnded.className = "quiz-question open-ended";
+    openEnded.innerHTML = `
+      <p><strong>自述題：</strong> 請分享你在使用網路或手機時，最想改善或調整的習慣。</p>
+    `;
+
+    const textArea = document.createElement("textarea");
+    textArea.id = "selfReflection";
+    textArea.name = "selfReflection";
+    textArea.placeholder = "寫下你的想法...";
+    textArea.rows = 6;
+    textArea.value = selfReflectionResponse;
+    textArea.addEventListener("input", (event) => {
+      selfReflectionResponse = event.target.value;
+    });
+
+    openEnded.appendChild(textArea);
+    container.appendChild(openEnded);
+  
+  }
+
   const totalPages = Math.ceil(questions.length / questionsPerPage) - 1;
   document.getElementById("prevBtn").style.display = currentPage === 0 ? "none" : "inline-block";
   document.getElementById("nextBtn").style.display = currentPage < totalPages ? "inline-block" : "none";
@@ -150,6 +182,7 @@ document.getElementById("quizForm").addEventListener("submit", async (e) => {
     payload[`Q${idx + 1} - ${qText}`] = opt ? opt.text : "";
     payload[`Q${idx + 1} 分數`] = answers[idx];
   });
+  payload["自述題回覆"] = selfReflectionResponse.trim();
 
   await fetch("https://formspree.io/f/mblajzqo", {
     method: "POST",
@@ -168,20 +201,24 @@ document.getElementById("quizForm").addEventListener("submit", async (e) => {
 // ✨ 分數跑數字
 function animateScore(finalScore) {
   const scoreDiv = document.getElementById("finalScore");
+  if (!scoreDiv) return;
+
   let current = 0;
+  const step = Math.max(1, Math.round(finalScore / 200));
+  scoreDiv.textContent = `總分：0 / ${MAX_SCORE}`;
+
   const interval = setInterval(() => {
+    current = Math.min(current + step, finalScore);
+    scoreDiv.textContent = `總分：${current} / ${MAX_SCORE}`;
     if (current >= finalScore) {
       clearInterval(interval);
-    } else {
-      current++;
-      scoreDiv.textContent = `總分：${current}`;
     }
-  }, 25);
+  }, 20);
 }
 
 // 顯示結果分析
 function showResults() {
-  const { totalScore, themeScores } = calculateScores();
+  const { normalizedScore, themeScores } = calculateScores();
   const resultContainer = document.getElementById("result");
   const username = window.participantName || "";
 
@@ -194,40 +231,43 @@ function showResults() {
     <div id="finalScore" class="final-score"></div>
   `;
 
-  renderOverallResult(totalScore, resultContainer);
-  if (totalScore >= 90) applyHighScoreEffects(resultContainer);
+  const overallAnalysis = renderOverallResult(normalizedScore, resultContainer);
+  if (normalizedScore >= 480) applyHighScoreEffects(resultContainer);
   renderThemeCards(themeScores, resultContainer);
-  initAccordion();
+  renderResultButtons(normalizedScore, overallAnalysis, resultContainer);
 }
 
 // 計算分數
 function calculateScores() {
-  let totalScore = 0;
+  let rawTotalScore = 0;
   let themeScores = {};
   for (let theme in themes) {
     themeScores[theme] = 0;
     themes[theme].forEach(i => {
       if (answers[i] !== undefined) {
         themeScores[theme] += answers[i];
-        totalScore += answers[i];
+        rawTotalScore += answers[i];
       }
     });
   }
-  return { totalScore, themeScores };
+  const maxOptionScore = options.length ? Math.max(...options.map(opt => opt.score)) : 0;
+  const rawMaxScore = questions.length * maxOptionScore;
+  const normalizedScore = rawMaxScore > 0 ? Math.round((rawTotalScore / rawMaxScore) * MAX_SCORE) : 0;
+
+  return { normalizedScore, themeScores };
 }
 
 // 總體分析
-function renderOverallResult(totalScore, container) {
-  const overallAnalysis = totalScore < 50 ? "風險偏低，請持續保持良好使用習慣。" :
-    totalScore < 90 ? "中度風險，建議檢視網路使用行為。" :
-      "⚠️ 高度風險，可能已影響生活，建議尋求協助。";
+function renderOverallResult(normalizedScore, container) {
+  const stage = SCORE_STAGES.find(def => normalizedScore <= def.max) || SCORE_STAGES[SCORE_STAGES.length - 1];
 
   const analysisP = document.createElement("p");
   analysisP.style.textAlign = "center";
-  analysisP.textContent = overallAnalysis;
+  analysisP.innerHTML = `<strong>${stage.label}</strong><br>${stage.description}`;
   container.appendChild(analysisP);
 
-  animateScore(totalScore);
+  animateScore(normalizedScore);
+  return stage;
 }
 
 // 高分警告效果
@@ -258,148 +298,138 @@ function applyHighScoreEffects(container) {
 
 // 主題卡片
 function renderThemeCards(themeScores, container) {
-  let index = 0;
-  for (let theme in themeScores) {
+  const accordionContainer = document.createElement("div");
+  accordionContainer.className = "result-accordion";
+  container.appendChild(accordionContainer);
+
+  function closeItem(item) {
+    const panel = item.querySelector(".accordion-panel");
+    item.classList.remove("open");
+    if (panel) {
+      panel.classList.remove("open");
+      panel.style.maxHeight = 0;
+    }
+  }
+
+  function openItem(item) {
+    const panel = item.querySelector(".accordion-panel");
+    item.classList.add("open");
+    if (panel) {
+      panel.classList.add("open");
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  }
+
+  Object.keys(themeScores).forEach((theme, index) => {
     const score = themeScores[theme];
-    const comment = score < 20 ? "風險偏低" :
-      score < 35 ? "中度風險" : "高度風險";
+    const comment = score < 30 ? "風險偏低" :
+      score < 70 ? "中度風險" : "高度風險";
 
-    const themeBlock = document.createElement("div");
-    themeBlock.className = "theme-score-card";
+    const item = document.createElement("div");
+    item.className = "accordion-item";
 
-    const label = document.createElement("div");
-    label.innerHTML = `<strong>${theme}</strong>：${score} 分（${comment}）`;
+    const trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "accordion-trigger";
+    trigger.innerHTML = `
+      <span class="accordion-title">${theme}</span>
+      <span class="accordion-meta">${score} 分（${comment}）</span>
+    `;
 
-    // 分數條
+    const panel = document.createElement("div");
+    panel.className = "accordion-panel";
+
     const barContainer = document.createElement("div");
     barContainer.className = "score-bar-container";
     const bar = document.createElement("div");
     bar.className = "score-bar";
     bar.style.setProperty("--score-width", `${Math.min(score, 100)}%`);
-    bar.style.animationDelay = `${index * 0.3}s`;
-    bar.style.backgroundColor = score <= 20 ? '#4caf50' : score <= 35 ? '#ffeb3b' : '#f44336';
+    bar.style.animationDelay = `${index * 0.2}s`;
+    bar.style.backgroundColor = score <= 30 ? '#4caf50' : score <= 70 ? '#ffeb3b' : '#f44336';
     barContainer.appendChild(bar);
 
-    // Accordion 區塊
-    const accordion = document.createElement("div");
-    accordion.className = "accordion";
+    const detail = document.createElement("div");
+    detail.className = "accordion-detail";
 
-    const header = document.createElement("div");
-    header.className = "accordion-header";
-    header.textContent = "查看本主題題目與分析";
-
-    const content = document.createElement("div");
-    content.className = "accordion-content";
-
-    // 題目逐一加入
     themes[theme].forEach(idx => {
       const qText = questions[idx];
       const ansScore = answers[idx];
       const opt = options.find(o => o.score === ansScore);
       const ansText = opt ? opt.text : "未作答";
-      let qAnalysis = ansScore >= 8 ? "⚠️ 風險偏高" : ansScore >= 4 ? "中度風險" : "風險低";
+      const qAnalysis = ansScore >= 8 ? "⚠️ 風險偏高" : ansScore >= 4 ? "中度風險" : "風險低";
 
       const p = document.createElement("p");
-      p.innerHTML = `<strong>Q${idx + 1}：</strong>${qText}<br>
+      p.className = "accordion-detail-line";
+      p.innerHTML = `
+        <strong>Q${idx + 1}：</strong>${qText}<br>
         <strong>你的答案：</strong>${ansText}（分數：${ansScore}）<br>
-        <span style="color:#1abc9c">${qAnalysis}</span>`;
-      content.appendChild(p);
+        <span class="detail-analysis">${qAnalysis}</span>
+      `;
+      detail.appendChild(p);
     });
 
-    accordion.appendChild(header);
-    accordion.appendChild(content);
+    panel.appendChild(barContainer);
+    panel.appendChild(detail);
 
-    themeBlock.appendChild(label);
-    themeBlock.appendChild(barContainer);
-    themeBlock.appendChild(accordion);
-    container.appendChild(themeBlock);
+    trigger.addEventListener("click", () => {
+      const currentlyOpen = accordionContainer.querySelector(".accordion-item.open");
+      if (currentlyOpen && currentlyOpen !== item) {
+        closeItem(currentlyOpen);
+      }
 
-    index++;
-  }
+      if (item.classList.contains("open")) {
+        closeItem(item);
+      } else {
+        openItem(item);
+      }
+    });
 
-  initAccordion();
+    item.appendChild(trigger);
+    item.appendChild(panel);
+    accordionContainer.appendChild(item);
+  });
 }
 
-// 控制展開動畫
-function initAccordion() {
-  document.querySelectorAll(".accordion").forEach(acc => {
-    const header = acc.querySelector(".accordion-header");
-    const content = acc.querySelector(".accordion-content");
-
-    header.addEventListener("click", () => {
-      const isOpen = acc.classList.contains("open");
-
-      // 找出目前已經展開的
-      const opened = document.querySelector(".accordion.open");
-      if (opened && opened !== acc) {
-        const openedContent = opened.querySelector(".accordion-content");
-        // 收合動畫
-        openedContent.style.height = openedContent.scrollHeight + "px";
-        requestAnimationFrame(() => {
-          openedContent.style.height = 0;
-        });
-        openedContent.addEventListener("transitionend", function handler() {
-          opened.classList.remove("open");
-          openedContent.removeEventListener("transitionend", handler);
-        });
-      }
-
-      if (!isOpen) {
-        // 展開動畫
-        acc.classList.add("open");
-        content.style.height = content.scrollHeight + "px";
-        content.addEventListener("transitionend", function handler() {
-          if (acc.classList.contains("open")) {
-            content.style.height = "auto"; // 展開後自動高度
-          }
-          content.removeEventListener("transitionend", handler);
-        });
-      } else {
-        // 收合動畫
-        content.style.height = content.scrollHeight + "px";
-        requestAnimationFrame(() => {
-          content.style.height = 0;
-        });
-        content.addEventListener("transitionend", function handler() {
-          acc.classList.remove("open");
-          content.removeEventListener("transitionend", handler);
-        });
-      }
-    });
-  });
-
-  // 📤 分享結果 ＋ 🏠 回到首頁
+function renderResultButtons(totalScore, overallAnalysis, container) {
   const btnContainer = document.createElement("div");
   btnContainer.className = "result-buttons";
 
   const shareBtn = document.createElement("button");
+  shareBtn.type = "button";
   shareBtn.className = "btn";
   shareBtn.textContent = "📤 分享結果";
-  shareBtn.onclick = () => {
-    const shareText = `我剛完成「脫癮而出」網路使用風險測驗，總分 ${totalScore} 分，${overallAnalysis} 👉 ${location.href}`;
+  shareBtn.addEventListener("click", () => {
+    const shareText = `我剛完成「脫癮而出」網路使用風險測驗，總分 ${totalScore} / ${MAX_SCORE} 分，${overallAnalysis.label}－${overallAnalysis.description} 👉 ${location.href}`;
     if (navigator.share) {
       navigator.share({
         title: "脫癮而出｜網路風險測驗",
         text: shareText,
         url: location.href
       });
+    } else if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(shareText).then(() => {
+        alert("已複製分享內容，可貼給朋友！");
+      }, () => {
+        alert("複製失敗，請手動分享這個頁面。");
+      });
     } else {
-      navigator.clipboard.writeText(shareText);
-      alert("已複製分享內容，可貼給朋友！");
+      alert("目前的瀏覽器不支援直接分享，請手動複製網址。");
     }
-  };
+  });
 
   const homeBtn = document.createElement("button");
+  homeBtn.type = "button";
   homeBtn.className = "btn";
   homeBtn.textContent = "🏠 回到首頁";
-  homeBtn.onclick = () => {
+  homeBtn.addEventListener("click", () => {
     window.location.href = "index.html";
-  };
+  });
 
   btnContainer.appendChild(shareBtn);
   btnContainer.appendChild(homeBtn);
-  resultContainer.appendChild(btnContainer);
+  container.appendChild(btnContainer);
 }
+
 
 window.addEventListener("load", () => {
   const preloader = document.getElementById("preloader");
