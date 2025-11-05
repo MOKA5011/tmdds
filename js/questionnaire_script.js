@@ -12,10 +12,10 @@ document.getElementById("startQuizBtn").addEventListener("click", () => {
 
 const MAX_SCORE = 300;
 const SCORE_STAGES = [
-  { max: 120, label: "第 1 階段：低度風險", description: "目前使用習慣相當穩定，請持續維持良好的作息與自我覺察。" },
-  { max: 240, label: "第 2 階段：需要留意", description: "偶爾會感到依賴或分心，建議安排固定的離線時間與替代活動。" },
-  { max: 360, label: "第 3 階段：風險浮現", description: "網路使用已出現影響日常生活的跡象，請試著調整使用時間與內容。" },
-  { max: 480, label: "第 4 階段：高度風險", description: "網路成癮風險偏高，建議與信任的家人或朋友討論並尋求支援。" },
+  { max: 60, label: "第 1 階段：低度風險", description: "目前使用習慣相當穩定，請持續維持良好的作息與自我覺察。" },
+  { max: 120, label: "第 2 階段：需要留意", description: "偶爾會感到依賴或分心，建議安排固定的離線時間與替代活動。" },
+  { max: 180, label: "第 3 階段：風險浮現", description: "網路使用已出現影響日常生活的跡象，請試著調整使用時間與內容。" },
+  { max: 240, label: "第 4 階段：高度風險", description: "網路成癮風險偏高，建議與信任的家人或朋友討論並尋求支援。" },
   { max: MAX_SCORE, label: "第 5 階段：嚴重警戒", description: "已達高度警戒，可能對身心造成明顯影響，建議尋求專業協助。" }
 ];
 
@@ -26,8 +26,8 @@ let themes = {};
 let currentPage = 0;
 const questionsPerPage = 5;
 let answers = {};
-let hasShownCompletionMessage = false;
 let selfReflectionResponse = "";
+let questionPageCount = 0;
 
 // 載入 JSON 資料
 Promise.all([
@@ -38,7 +38,9 @@ Promise.all([
   questions = qData.slice(0, 30);
   options = oData;
   themes = tData;
+  questionPageCount = Math.ceil(questions.length / questionsPerPage);
   renderPage();
+  updateProgressBar();
 });
 
 // 儲存答案並更新進度
@@ -67,12 +69,8 @@ function updateProgressBar() {
     progressTip.textContent = `✅ 已完成 ${answeredCount} / ${totalQuestions} 題`;
   }
 
-  if (answeredCount === totalQuestions) {
-    if (progressBar) progressBar.style.backgroundColor = "#fbc02d";
-    if (!hasShownCompletionMessage) {
-      alert("🎉 恭喜你完成所有題目！");
-      hasShownCompletionMessage = true;
-    }
+  if (progressBar) {
+    progressBar.style.backgroundColor = answeredCount === totalQuestions ? "#fbc02d" : "#4caf50";
   }
 }
 
@@ -80,56 +78,69 @@ function updateProgressBar() {
 function renderPage() {
   const container = document.getElementById("pageContainer");
   container.innerHTML = "";
-  const start = currentPage * questionsPerPage;
-  const end = start + questionsPerPage;
+  if (currentPage < questionPageCount) {
+    const start = currentPage * questionsPerPage;
+    const end = start + questionsPerPage;
 
-  for (let i = start; i < end && i < questions.length; i++) {
-    const qDiv = document.createElement("div");
-    qDiv.className = "quiz-question";
-    qDiv.innerHTML = `<p><strong>第 ${i + 1} 題：</strong> ${questions[i]}</p>`;
+    for (let i = start; i < end && i < questions.length; i++) {
+      const qDiv = document.createElement("div");
+      qDiv.className = "quiz-question";
+      qDiv.innerHTML = `<p><strong>第 ${i + 1} 題：</strong> ${questions[i]}</p>`;
 
-    const optDiv = document.createElement("div");
-    optDiv.className = "quiz-options";
+      const optDiv = document.createElement("div");
+      optDiv.className = "quiz-options";
 
-    options.forEach((opt) => {
-      const checked = answers[i] === opt.score ? "checked" : "";
-      optDiv.innerHTML += `
-        <label>
-          <input type="radio" name="q${i}" value="${opt.score}" ${checked}
-            onchange="saveAnswer(${i}, ${opt.score})"> ${opt.text}
-        </label>`;
-    });
+      options.forEach((opt) => {
+        const checked = answers[i] === opt.score ? "checked" : "";
+        optDiv.innerHTML += `
+          <label>
+            <input type="radio" name="q${i}" value="${opt.score}" ${checked}
+              onchange="saveAnswer(${i}, ${opt.score})"> ${opt.text}
+          </label>`;
+      });
 
-    qDiv.appendChild(optDiv);
-    container.appendChild(qDiv);
+      qDiv.appendChild(optDiv);
+      container.appendChild(qDiv);
+    }
+  } else {
+    renderReflectionPage(container);
   }
 
-  if (end >= questions.length) {
-    const openEnded = document.createElement("div");
-    openEnded.className = "quiz-question open-ended";
-    openEnded.innerHTML = `
-      <p><strong>自述題：</strong> 請分享你在使用網路或手機時，最想改善或調整的習慣。</p>
-    `;
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const submitBtn = document.getElementById("submitBtn");
 
-    const textArea = document.createElement("textarea");
-    textArea.id = "selfReflection";
-    textArea.name = "selfReflection";
-    textArea.placeholder = "寫下你的想法...";
-    textArea.rows = 6;
-    textArea.value = selfReflectionResponse;
-    textArea.addEventListener("input", (event) => {
-      selfReflectionResponse = event.target.value;
-    });
+  prevBtn.style.display = currentPage === 0 ? "none" : "inline-block";
 
-    openEnded.appendChild(textArea);
-    container.appendChild(openEnded);
-  
+  if (currentPage < questionPageCount) {
+    nextBtn.style.display = "inline-block";
+    nextBtn.textContent = currentPage === questionPageCount - 1 ? "下一步" : "下一頁";
+    submitBtn.style.display = "none";
+  } else {
+    nextBtn.style.display = "none";
+    submitBtn.style.display = "inline-block";
   }
+}
 
-  const totalPages = Math.ceil(questions.length / questionsPerPage) - 1;
-  document.getElementById("prevBtn").style.display = currentPage === 0 ? "none" : "inline-block";
-  document.getElementById("nextBtn").style.display = currentPage < totalPages ? "inline-block" : "none";
-  document.getElementById("submitBtn").style.display = currentPage === totalPages ? "inline-block" : "none";
+function renderReflectionPage(container) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "quiz-question open-ended";
+  wrapper.innerHTML = `
+    <p><strong>自述題：</strong> 請分享你在使用網路或手機時，最想改善或調整的習慣。</p>
+  `;
+
+  const textArea = document.createElement("textarea");
+  textArea.id = "selfReflection";
+  textArea.name = "selfReflection";
+  textArea.placeholder = "寫下你的想法...";
+  textArea.rows = 6;
+  textArea.value = selfReflectionResponse;
+  textArea.addEventListener("input", (event) => {
+    selfReflectionResponse = event.target.value;
+  });
+
+  wrapper.appendChild(textArea);
+  container.appendChild(wrapper);
 }
 
 // 上一頁
@@ -232,7 +243,7 @@ function showResults() {
   `;
 
   const overallAnalysis = renderOverallResult(normalizedScore, resultContainer);
-  if (normalizedScore >= 480) applyHighScoreEffects(resultContainer);
+  if (normalizedScore >= 240) applyHighScoreEffects(resultContainer);
   renderThemeCards(themeScores, resultContainer);
   renderResultButtons(normalizedScore, overallAnalysis, resultContainer);
 }
@@ -322,8 +333,8 @@ function renderThemeCards(themeScores, container) {
 
   Object.keys(themeScores).forEach((theme, index) => {
     const score = themeScores[theme];
-    const comment = score < 30 ? "風險偏低" :
-      score < 70 ? "中度風險" : "高度風險";
+    const comment = score < 20 ? "風險偏低" :
+      score < 35 ? "中度風險" : "高度風險";
 
     const item = document.createElement("div");
     item.className = "accordion-item";
@@ -345,7 +356,7 @@ function renderThemeCards(themeScores, container) {
     bar.className = "score-bar";
     bar.style.setProperty("--score-width", `${Math.min(score, 100)}%`);
     bar.style.animationDelay = `${index * 0.2}s`;
-    bar.style.backgroundColor = score <= 30 ? '#4caf50' : score <= 70 ? '#ffeb3b' : '#f44336';
+    bar.style.backgroundColor = score <= 20 ? '#4caf50' : score <= 35 ? '#ffeb3b' : '#f44336';
     barContainer.appendChild(bar);
 
     const detail = document.createElement("div");
