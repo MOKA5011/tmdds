@@ -203,18 +203,7 @@
   </section>
 
 
-  <!-- 詳細介紹面板 -->
-  <div id="detailPanel" class="detail-panel">
-    <!-- 把 close-btn 移到 detail-content 裡面 -->
-    <button class="arrow left" onclick="switchDetail(-1)">◀</button>
-    <div class="detail-content">
-      <button class="close-btn" onclick="closeDetail()">✕</button>
-      <img id="detailImg" src="" alt="">
-      <h2 id="detailTitle"></h2>
-      <p id="detailText"></p>
-    </div>
-    <button class="arrow right" onclick="switchDetail(1)">▶</button>
-  </div>
+
 
   <!-- 夢境展示 -->
   <section id="dreams" class="section dark-section">
@@ -421,7 +410,7 @@
       once: true
     });
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
 
   <!-- SVG 濾鏡（可全站共用；放在 body 末端一次即可） -->
   <svg width="0" height="0" style="position:absolute">

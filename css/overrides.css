@@ -1,0 +1,11 @@
+/* 通用：避免 inline 元素造成間隙或溢出 */
+img { display: block; max-width: 100%; height: auto; }
+
+/* 統一每個 section 的左右間距 / 最大寬度（不與 hero/全寬衝突） */
+.section {
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 5%;
+}
+

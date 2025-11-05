@@ -5,7 +5,7 @@ body {
     background: linear-gradient(-45deg, #0d0d0d, #0d0d3f, #a0b6f3, #0f3460);
     background-size: 400% 400%;
     animation: gradientShift 15s ease infinite;
-    color: #fff;
+    color: rgba(200,220,255,0.8);
 }
 
 @keyframes gradientShift {
