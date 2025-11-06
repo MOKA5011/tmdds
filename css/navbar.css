@@ -33,11 +33,12 @@
 
 /* ---------- 容器 ---------- */
 .card-nav-container {
-  position: fixed;
-  top: 1.6rem;
+  position: absolute;
+  top: 2em;
   left: 50%;
   transform: translateX(-50%);
-  width: min(90%, var(--cn-width-max));
+  width: 90%;
+  max-width: var(--cn-width-max);
   z-index: 99;
   box-sizing: border-box;
 }
@@ -56,10 +57,6 @@
   box-shadow: var(--cn-shadow);
   will-change: height;
   backdrop-filter: saturate(120%) blur(4px);
-  transition:
-    width var(--cn-dur) var(--cn-ease),
-    border-radius var(--cn-dur) var(--cn-ease),
-    box-shadow var(--cn-dur) var(--cn-ease);
 }
 
 /* ---------- 上方工具列 ---------- */
@@ -96,6 +93,7 @@
   cursor: pointer;
   user-select: none;
   color: inherit;                 /* 允許外層改色 */
+  transition: margin var(--cn-dur) var(--cn-ease);
 }
 .hamburger-menu:focus {
   outline: 2px solid var(--cn-focus);
@@ -161,6 +159,7 @@
   visibility: hidden;               /* 初始不可見（nav.js 以 autoAlpha 控制） */
   pointer-events: none;             /* 初始不可互動 */
   z-index: 1;
+  transition: margin-top var(--cn-dur-slow) var(--cn-ease);
 }
 .card-nav.open .card-nav-content {
   visibility: visible;              /* 備援（JS 也會切 autoAlpha/pointer-events） */
@@ -283,6 +282,7 @@
   .card-nav.open .card-nav-top {
     justify-content: space-between;
     padding: .5rem .85rem;
+    gap: .65rem;
   }
 
   .card-nav:not(.open) .logo-container,
