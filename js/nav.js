@@ -11,6 +11,130 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!window.gsap) { console.error("[nav] GSAP 未載入"); return; }
   const gs = window.gsap;
+  let isOpen = false;
+  let isCompact = false;
+  const heightState = { base: 60, compact: 46 };
+  const mobileQuery = window.matchMedia ? window.matchMedia("(max-width: 600px)") : null;
+  const shouldUseCompact = () => !(mobileQuery?.matches);
+
+  function isFloatingLayout(){
+    return mobileQuery?.matches ?? false;
+  }
+
+  const layoutState = {
+    floating: isFloatingLayout(),
+    closedWidth: 0
+  };
+
+  function getFabSize(){
+    const styles = window.getComputedStyle(navEl);
+    const varVal = parseFloat(styles.getPropertyValue("--cn-fab-size"));
+    if (!Number.isNaN(varVal)) return varVal;
+    const rect = navEl.getBoundingClientRect();
+    return rect.width || 56;
+  }
+
+  function getFloatingWidth(){
+    const target = Math.min(window.innerWidth * 0.92, 360);
+    return Math.max(target, layoutState.closedWidth || 0);
+  }
+
+  let tl = null;
+
+  function rebuildTimeline(){
+    if (tl) tl.kill();
+
+    layoutState.floating = isFloatingLayout();
+    layoutState.closedWidth = layoutState.floating ? getFabSize() : 0;
+
+    tl = gs.timeline({ paused:true, defaults:{ ease:"power3.out" } });
+
+    if (layoutState.floating){
+      const openWidth = getFloatingWidth();
+      const startWidth = layoutState.closedWidth || getFabSize();
+      tl.fromTo(navEl,
+        { width: startWidth },
+        { width: openWidth, duration:0.26, ease:"power2.out" })
+        .to(navEl, { height:"auto", duration:0.36, ease:"power3.out" }, ">-0.04")
+        .to(content,{ autoAlpha:1, pointerEvents:"auto", duration:0.2 }, "-=0.18")
+        .to(cards,{ y:0, opacity:1, duration:0.35, stagger:0.08 }, "-=0.12");
+    } else {
+      tl.to(navEl,{ height:"auto", duration:0.4 })
+        .to(content,{ autoAlpha:1, pointerEvents:"auto", duration:0.2 }, "<0.05")
+        .to(cards,{ y:0, opacity:1, duration:0.35, stagger:0.08 }, "-=0.05");
+    }
+
+    tl.eventCallback("onReverseComplete", () => {
+      const allowCompact = shouldUseCompact();
+      const targetHeight = isCompact && allowCompact ? heightState.compact : heightState.base;
+      gs.set(navEl, { height: targetHeight, overflow:"hidden" });
+      if (layoutState.floating){
+        gs.set(navEl, { clearProps:"width" });
+      }
+      navEl.classList.remove("open");
+    });
+  }
+
+  function syncOpenDimensions(){
+    if (!isOpen) return;
+    if (layoutState.floating){
+      gs.set(navEl, { width: getFloatingWidth(), height:"auto" });
+    } else {
+      gs.set(navEl, { height:"auto", clearProps:"width" });
+    }
+  }
+
+  function computeBaseHeight(){
+    const styles = window.getComputedStyle(navEl);
+    const cssVar = parseFloat(styles.getPropertyValue("--cn-topbar-h"));
+    if (!Number.isNaN(cssVar)) return cssVar;
+    const topBar = navEl.querySelector(".card-nav-top");
+    if (topBar){
+      const rect = topBar.getBoundingClientRect();
+      if (rect.height) return rect.height;
+    }
+    const navRect = navEl.getBoundingClientRect();
+    return navRect.height || 60;
+  }
+
+  function refreshHeights(){
+    const base = computeBaseHeight();
+    heightState.base = base;
+    heightState.compact = Math.max(Math.round(base * 0.76), base - 14);
+    const allowCompact = shouldUseCompact();
+    if (!allowCompact && isCompact){
+      isCompact = false;
+      navEl.classList.remove("compact");
+    }
+    const targetHeight = isCompact && allowCompact ? heightState.compact : heightState.base;
+    if (!isOpen){
+      gs.set(navEl, { height: targetHeight, overflow:"hidden" });
+    } else {
+      gs.set(navEl, { overflow:"hidden" });
+    }
+  }
+
+  if (mobileQuery){
+    const handleQuery = () => {
+      refreshHeights();
+      rebuildTimeline();
+      syncOpenDimensions();
+    };
+    if (mobileQuery.addEventListener){
+      mobileQuery.addEventListener("change", handleQuery);
+    } else if (mobileQuery.addListener){
+      mobileQuery.addListener(handleQuery);
+    }
+  }
+
+  if (mobileQuery){
+    const handleQuery = () => refreshHeights();
+    if (mobileQuery.addEventListener){
+      mobileQuery.addEventListener("change", handleQuery);
+    } else if (mobileQuery.addListener){
+      mobileQuery.addListener(handleQuery);
+    }
+  }
 
   // ARIA
   const controlsId = content.id || "card-nav-content";
@@ -25,22 +149,12 @@ document.addEventListener("DOMContentLoaded", () => {
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // 初始
-  gs.set(navEl,{ height:60, overflow:"hidden" });
+  refreshHeights();
   gs.set(cards,{ y:20, opacity:0 });
   gs.set(content,{ autoAlpha:0, pointerEvents:"none" });
 
   // Timeline
-  let tl = gs.timeline({ paused:true, defaults:{ ease:"power3.out" } });
-  tl.to(navEl,{ height:"auto", duration:0.4 })
-    .to(content,{ autoAlpha:1, pointerEvents:"auto", duration:0.2 },"<0.05")
-    .to(cards,{ y:0, opacity:1, duration:0.35, stagger:0.08 },"-=0.05")
-    .eventCallback("onReverseComplete", () => {
-      gs.set(navEl, { height: isCompact ? 46 : 60, overflow:"hidden" });
-      navEl.classList.remove("open");
-    });
-
-  let isOpen = false;
-  let isCompact = false;
+rebuildTimeline();
 
   function openMenu(){
     if (isOpen) return;
@@ -49,8 +163,12 @@ document.addEventListener("DOMContentLoaded", () => {
     hamburger.classList.add("open");
     hamburger.setAttribute("aria-expanded","true");
     hamburger.setAttribute("aria-label","關閉選單");
+    rebuildTimeline();
     if (reduceMotion){
       navEl.style.height = "auto";
+      if (layoutState.floating){
+        navEl.style.width = `${getFloatingWidth()}px`;
+      }
       content.style.visibility = "visible";
       content.style.pointerEvents = "auto";
       content.style.opacity = "1";
@@ -66,7 +184,12 @@ document.addEventListener("DOMContentLoaded", () => {
     hamburger.setAttribute("aria-expanded","false");
     hamburger.setAttribute("aria-label","開啟選單");
     if (reduceMotion){
-      navEl.style.height = isCompact ? "46px" : "60px";
+      const allowCompact = shouldUseCompact();
+      const targetHeight = isCompact && allowCompact ? heightState.compact : heightState.base;
+      navEl.style.height = `${targetHeight}px`;
+      if (layoutState.floating){
+        navEl.style.width = "";
+      }
       content.style.visibility = "hidden";
       content.style.pointerEvents = "none";
       content.style.opacity = "0";
@@ -88,9 +211,13 @@ document.addEventListener("DOMContentLoaded", () => {
   content.querySelectorAll("a").forEach(a => a.addEventListener("click", () => closeMenu()));
 
   // 調整高度（展開狀態）
-  const ro = new ResizeObserver(()=>{ if(isOpen) gs.set(navEl,{ height:"auto" }); });
+  const ro = new ResizeObserver(()=>{ if (isOpen) syncOpenDimensions(); });
   ro.observe(content);
-  window.addEventListener("resize", ()=>{ if(isOpen) gs.set(navEl,{ height:"auto" }); });
+  window.addEventListener("resize", ()=>{
+    refreshHeights();
+    rebuildTimeline();
+    syncOpenDimensions();
+  });
 
   // 滾動偵測：下滑縮小、上滑展開
   let lastY = window.scrollY || 0;
@@ -100,10 +227,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const UP_DELTA = 8;     // 向上最少位移
 
   function setCompact(val){
+        const allowCompact = shouldUseCompact();
+    if (!allowCompact) val = false;
     if (isCompact === val) return;
     isCompact = val;
-    navEl.classList.toggle("compact", isCompact);
-    if (!isOpen) gs.set(navEl, { height: isCompact ? 46 : 60 });
+    navEl.classList.toggle("compact", isCompact && allowCompact);
+    if (!isOpen){
+      const targetHeight = isCompact && allowCompact ? heightState.compact : heightState.base;
+      gs.set(navEl, { height: targetHeight });
+    }
     if (isCompact && isOpen) closeMenu();
   }
 
@@ -114,7 +246,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const y = window.scrollY || 0;
       const dy = y - lastY;
 
-      if (y > SHRINK_AT && dy > DOWN_DELTA) {
+      if (!shouldUseCompact()) {
+        setCompact(false);
+      } else if (y > SHRINK_AT && dy > DOWN_DELTA) {
         setCompact(true);
       } else if (dy < -UP_DELTA) {
         setCompact(false);

@@ -18,6 +18,7 @@
   --cn-topbar-h: 60px;
   --cn-gap: 12px;
   --cn-pad: 0.6rem;
+  --cn-fab-size: 56px;
 
   /* 陰影/玻璃感 */
   --cn-shadow: 0 6px 24px rgba(0, 0, 0, .12);
@@ -32,12 +33,11 @@
 
 /* ---------- 容器 ---------- */
 .card-nav-container {
-  position: absolute;
-  top: 2em;
+  position: fixed;
+  top: 1.6rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  max-width: var(--cn-width-max);
+  width: min(90%, var(--cn-width-max));
   z-index: 99;
   box-sizing: border-box;
 }
@@ -56,6 +56,10 @@
   box-shadow: var(--cn-shadow);
   will-change: height;
   backdrop-filter: saturate(120%) blur(4px);
+  transition:
+    width var(--cn-dur) var(--cn-ease),
+    border-radius var(--cn-dur) var(--cn-ease),
+    box-shadow var(--cn-dur) var(--cn-ease);
 }
 
 /* ---------- 上方工具列 ---------- */
@@ -70,6 +74,15 @@
   justify-content: space-between;
   padding: .5rem .6rem .55rem 1.1rem;
   z-index: 2;
+}
+
+.card-nav-top .card-nav-cta-button {
+  order: 1;
+}
+
+.card-nav-top .hamburger-menu {
+  order: 2;
+  margin-left: auto;
 }
 
 /* ---------- 漢堡 ---------- */
@@ -233,6 +246,75 @@
   .nav-card-label { font-size: 18px; }
   .nav-card-link { font-size: 15px; }
 }
+
+@media (max-width: 600px) {
+  :root {
+    --cn-topbar-h: var(--cn-fab-size);
+  }
+
+  .card-nav-container {
+    top: 1rem;
+    left: auto;
+    right: 1rem;
+    transform: none;
+    width: auto;
+  }
+
+  .card-nav {
+    width: var(--cn-fab-size);
+    height: var(--cn-fab-size);
+    border-radius: 999px;
+    padding: 0;
+  }
+
+  .card-nav.open {
+    width: min(92vw, 360px);
+    border-radius: 22px;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, .24);
+  }
+
+  .card-nav-top {
+    height: 100%;
+    padding: 0;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .card-nav.open .card-nav-top {
+    justify-content: space-between;
+    padding: .5rem .85rem;
+  }
+
+  .card-nav:not(.open) .logo-container,
+  .card-nav:not(.open) .card-nav-cta-button {
+    display: none;
+  }
+
+  .card-nav:not(.open) .hamburger-menu {
+    margin: 0 auto;
+  }
+
+  .card-nav.open .hamburger-menu {
+    margin-left: auto;
+  }
+
+  .card-nav.open .logo-container {
+    display: flex;
+  }
+
+  .card-nav-content {
+    padding: .55rem;
+  }
+
+  .card-nav:not(.open) .card-nav-content {
+    margin-top: 0;
+  }
+
+  .card-nav.open .card-nav-content {
+    margin-top: var(--cn-topbar-h);
+  }
+}
+
 
 /* === 滾動縮小狀態（compact） === */
 .card-nav.compact .card-nav-top { height: 46px; }
