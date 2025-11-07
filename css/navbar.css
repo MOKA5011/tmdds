@@ -33,12 +33,11 @@
 
 /* ---------- 容器 ---------- */
 .card-nav-container {
-  position: absolute;
-  top: 2em;
+  position: fixed;
+  top: 1.6rem;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  max-width: var(--cn-width-max);
+  width: min(90%, var(--cn-width-max));
   z-index: 99;
   box-sizing: border-box;
 }
@@ -57,6 +56,10 @@
   box-shadow: var(--cn-shadow);
   will-change: height;
   backdrop-filter: saturate(120%) blur(4px);
+  transition:
+    width var(--cn-dur) var(--cn-ease),
+    border-radius var(--cn-dur) var(--cn-ease),
+    box-shadow var(--cn-dur) var(--cn-ease);
 }
 
 /* ---------- 上方工具列 ---------- */
@@ -81,6 +84,7 @@
   order: 2;
   margin-left: auto;
 }
+
 
 /* ---------- 漢堡 ---------- */
 .hamburger-menu {
@@ -291,7 +295,7 @@
   }
 
   .card-nav:not(.open) .hamburger-menu {
-    margin: 0 auto;
+    margin: 0 ;
   }
 
   .card-nav.open .hamburger-menu {
