@@ -10,11 +10,11 @@ const detailData = {
     { img: "assets/images/stage9.png", title: "夢境三｜自我對話", text: "與另一個自己相遇..." }
   ],
   team: [
-    { img: "assets/images/cb24cf96bf40fb30cd48e4008eb6b03a.jpg", title: "園長", text: "色彩規劃" },
-    { img: "assets/images/0c68677f46d2fae9df1eeb766391e903.jpg", title: "雲", text: "角色設計" },
-    { img: "assets/images/cf89dffe11bbd0019919fc7c02d32e9e.jpg", title: "org", text: "場景設計" },
-    { img: "assets/images/288e200da732ba5867c98b3da3bdd754.jpg", title: "ibo", text: "分鏡繪製" },
-    { img: "assets/images/cf3245f7e478be8444179bc4f2aa5fb6.jpg", title: "miu", text: "網頁設計" }
+    { img: "assets/images/19.jpg", title: "園長", text: "色彩規劃" },
+    { img: "assets/images/16.jpg", title: "雲", text: "角色設計" },
+    { img: "assets/images/1.jpg", title: "org", text: "場景設計" },
+    { img: "assets/images/2.jpg", title: "ibo", text: "分鏡繪製" },
+    { img: "assets/images/4.jpg", title: "miu", text: "網頁設計" }
   ],
   production: [
     { img: "assets/images/dreamsingal.png", title: "分鏡設計", text: "動畫分鏡規劃與腳本設計" },

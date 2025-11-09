@@ -287,7 +287,11 @@
     justify-content: space-between;
     padding: .5rem .85rem;
     gap: .65rem;
+    height: var(--cn-topbar-h);
+    flex: 0 0 var(--cn-topbar-h);
+    align-items: center;
   }
+
 
   .card-nav:not(.open) .logo-container,
   .card-nav:not(.open) .card-nav-cta-button {
