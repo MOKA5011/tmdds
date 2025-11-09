@@ -292,7 +292,6 @@
     align-items: center;
   }
 
-
   .card-nav:not(.open) .logo-container,
   .card-nav:not(.open) .card-nav-cta-button {
     display: none;
@@ -322,7 +321,6 @@
     margin-top: var(--cn-topbar-h);
   }
 }
-
 
 /* === 滾動縮小狀態（compact） === */
 .card-nav.compact .card-nav-top { height: 46px; }
