@@ -86,10 +86,12 @@ function updateProgressBar() {
   const progressBar = document.getElementById("progressBar");
   const progressText = document.querySelector("#progressBar span");
   const progressTip = document.getElementById("progressTip");
-  if (progressBar) progressBar.style.width = `${percent}%`;
+  if (progressBar) {
+    progressBar.style.width = `${percent}%`;
+    progressBar.classList.toggle("complete", answered === total && total > 0);
+  }
   if (progressText) progressText.textContent = `${percent}%`;
   if (progressTip) progressTip.textContent = `✅ 已完成 ${answered} / ${total} 題`;
-  if (progressBar) progressBar.style.backgroundColor = answered === total ? "#fbc02d" : "#4caf50";
 }
 
 /* === 渲染頁面 === */

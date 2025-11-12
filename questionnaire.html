@@ -45,11 +45,13 @@
         </h2>
         <p style="margin-top:8px;">請先輸入您的姓名(可匿名)以開始答題</p>
       </div>
-      <div style="max-width:400px;margin:auto;display:flex;gap:10px;">
-        <input type="text" id="username" placeholder="請輸入姓名" required
-               style="flex:1;padding:12px 14px;border-radius:8px;border:1px solid #ddd;">
-        <button id="startQuizBtn" class="btn">開始答題</button>
-      </div>
+      <form class="intro-card" onsubmit="return false;">
+        <div class="field-group">
+          <label for="username" class="field-label">您的名字</label>
+          <input type="text" id="username" class="glow-input" placeholder="輸入稱呼或暱稱" required>
+        </div>
+        <button type="button" id="startQuizBtn" class="btn intro-btn">開始答題</button>
+      </form>
     </section>
 
     <!-- 問卷表單 -->
@@ -66,7 +68,7 @@
 
       <div id="pageContainer"></div>
 
-      <div class="navigation" style="text-align:center; margin-top:10px;">
+      <div class="navigation" >
         <button type="button" id="prevBtn" class="btn">上一頁</button>
         <button type="button" id="nextBtn" class="btn">下一頁</button>
         <button type="submit" id="submitBtn" class="btn" style="display:none;">提交問卷</button>
