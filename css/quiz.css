@@ -276,3 +276,26 @@
 .hidden {
     display: none;
 }
+
+.ai-card{
+  margin-top: 24px;
+  padding: 18px 20px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  color:#e8f2ff;
+}
+.ai-card h3{ margin:0 0 8px; font-size:1.2rem; letter-spacing:.5px; }
+.ai-block{ margin-top:12px; }
+.ai-tip{ background: rgba(0,0,0,.2); border:1px solid rgba(255,255,255,.08); padding:12px; border-radius:10px; margin:10px 0; }
+.ai-tip-title{ font-weight:700; margin-bottom:6px; }
+.ai-card ul, .ai-card ol{ margin:6px 0 0 1rem; }
+.muted{ color:#b7c6e6; font-size:.95rem; }
+.error{ color:#ffb4b4; }
+.pill{
+  display:inline-block; margin-left:6px; padding:.1rem .5rem; border-radius:999px;
+  font-size:.8rem; background:#2b3148; color:#d9e4ff;
+}
+.pill.low{ background:#1b3a2d; color:#c8f7dc; }
+.pill.medium{ background:#4a3b1a; color:#ffe9b3; }
+.pill.high{ background:#4a1b1b; color:#ffd2d2; }
