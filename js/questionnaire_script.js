@@ -8,7 +8,7 @@ const CF_ENDPOINT = 'https://square-math-ec9a.leochen0963.workers.dev/';
 /* === 基本常數 === */
 const MAX_SCORE = 300;
 const SCORE_STAGES = [
-  { max: 60,  label: "第 1 階段：低度風險", description: "目前使用習慣相當穩定，請持續維持良好的作息與自我覺察。" },
+  { max: 60,  label: "第 1 階段：幾乎沒有風險", description: "目前使用習慣相當穩定，請持續維持良好的作息與自我覺察。" },
   { max: 120, label: "第 2 階段：需要留意", description: "偶爾會感到依賴或分心，建議安排固定的離線時間與替代活動。" },
   { max: 180, label: "第 3 階段：風險浮現", description: "網路使用已出現影響日常生活的跡象，請試著調整使用時間與內容。" },
   { max: 240, label: "第 4 階段：高度風險", description: "網路成癮風險偏高，建議與信任的家人或朋友討論並尋求支援。" },
@@ -155,7 +155,7 @@ function renderPage() {
 function renderReflectionPage(container) {
   const wrapper = document.createElement("div");
   wrapper.className = "quiz-question open-ended";
-  wrapper.innerHTML = `<p><strong>自述題：</strong> 請分享你在使用網路或手機時，最想改善或調整的習慣。</p>`;
+  wrapper.innerHTML = `<p><strong>自述題：</strong> 請分享你在使用網路或手機時的習慣，或是你希望改變的地方，描述越詳細我們給出的建議會越符合你的需求。</p>`;
   const textArea = document.createElement("textarea");
   textArea.id = "selfReflection";
   textArea.name = "selfReflection";
@@ -265,7 +265,8 @@ function showResults() {
       name: window.participantName || '受測者',
       totalScore: normalizedScore,
       themeScores,
-      answers: answersBrief
+      answers: answersBrief,
+      selfReflection: selfReflectionResponse || ""
     });
   } catch (e) {
     console.warn('AI 分析未啟動：', e);
@@ -343,7 +344,7 @@ function renderThemeCards(themeScores, container) {
 
   Object.keys(themeScores).forEach((theme, idx) => {
     const score = themeScores[theme];
-    const comment = score < 20 ? "風險偏低" : score < 35 ? "中度風險" : "高度風險";
+    const comment = score <  35 ? "風險偏低" : score < 70 ? "中度風險" : "高度風險";
 
     const item = document.createElement("div");
     item.className = "accordion-item";
@@ -362,7 +363,7 @@ function renderThemeCards(themeScores, container) {
     bar.className = "score-bar";
     bar.style.setProperty("--score-width", `${Math.min(score, 100)}%`);
     bar.style.animationDelay = `${idx * 0.2}s`;
-    bar.style.backgroundColor = score <= 20 ? '#4caf50' : score <= 35 ? '#ffeb3b' : '#f44336';
+    bar.style.backgroundColor = score <= 35 ? '#4caf50' : score <= 70 ? '#ffeb3b' : '#f44336';
     barContainer.appendChild(bar);
 
     const detail = document.createElement("div");

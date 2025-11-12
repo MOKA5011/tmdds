@@ -1,7 +1,7 @@
 /* ===== 問卷 / 進度條 / 結果分析 ===== */
 .quiz-question {
     background: rgba(255, 255, 255, .25);
-    color: #222;
+    color: #e2e2e2;
     border-radius: 16px;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -29,7 +29,7 @@
 
 .quiz-question.open-ended textarea:focus {
     outline: none;
-    border-color: #3f8efc;
+    border-color: #e7f1ff;
     box-shadow: 0 0 0 3px rgba(63, 142, 252, .18);
 }
 
@@ -73,8 +73,8 @@
 /* 姓名輸入頁 */
 #namePage {
     text-align: center;
-    background: rgba(0, 178, 233, 0.562);
-    color: #111;
+    background: rgba(255, 255, 255, 0.562);
+    color: #ffffff;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, .1);
@@ -114,12 +114,12 @@
     text-align: center;
     font-size: 14px;
     margin-bottom: 5px;
-    color: #555;
+    color: #ffffff;
 }
 
 /* 結果 */
 #result {
-    background: #f9f9f9;
+    background: #f9f9f988;
     color: #222;
     padding: 30px;
     border-radius: 12px;
@@ -290,8 +290,8 @@
 .ai-tip{ background: rgba(0,0,0,.2); border:1px solid rgba(255,255,255,.08); padding:12px; border-radius:10px; margin:10px 0; }
 .ai-tip-title{ font-weight:700; margin-bottom:6px; }
 .ai-card ul, .ai-card ol{ margin:6px 0 0 1rem; }
-.muted{ color:#b7c6e6; font-size:.95rem; }
-.error{ color:#ffb4b4; }
+.muted{ color:#385eb1; font-size:.95rem; }
+.error{ color:#f32929; }
 .pill{
   display:inline-block; margin-left:6px; padding:.1rem .5rem; border-radius:999px;
   font-size:.8rem; background:#2b3148; color:#d9e4ff;

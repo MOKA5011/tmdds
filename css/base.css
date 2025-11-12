@@ -30,20 +30,26 @@ main {
 }
 
 /* 通用按鈕 */
-.btn {
-    display: inline-block;
-    padding: 12px 24px;
-    border-radius: 8px;
-    background: #e63946;
-    color: #fff;
-    border: 0;
-    cursor: pointer;
-    transition: transform .2s, background .3s;
+/* === 前往問卷按鈕（更大、更顯眼） === */
+.btn-glow {
+  display: inline-block;
+  padding: 16px 36px;             /* 比原本大 */
+  font-size: 1.3rem;              /* 文字更醒目 */
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #00e1ff, #0077ff);
+  border: none;
+  border-radius: 50px;
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 20px rgba(0, 162, 255, 0.4);
 }
 
-.btn:hover {
-    background: #d62828;
-    transform: scale(1.05);
+.btn-glow:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 30px rgba(0, 162, 255, 0.8);
+  background: linear-gradient(135deg, #00ffff, #0055ff);
 }
 
 .btn-glow {
@@ -88,11 +94,11 @@ main {
 .page-header h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #333;
+    color: #ffffff;
 }
 
 .page-header p {
-    color: #666;
+    color: #acacac;
     font-size: 1.1rem;
 }
 
@@ -108,4 +114,13 @@ footer {
     color: #ccc;
     padding: 20px;
     text-align: center;
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(0, 162, 255, 0.5); }
+  50% { box-shadow: 0 0 35px rgba(0, 225, 255, 0.9); }
+}
+
+.btn-glow {
+  animation: glowPulse 2s infinite ease-in-out;
 }
