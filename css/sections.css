@@ -135,10 +135,22 @@
 /* ===== 製作過程：卡片排版 ===== */
 #production .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(20px, 3vw, 40px);
   width: min(100%, 1400px);
   margin-inline: auto;
+}
+
+@media (max-width: 1024px) {
+  #production .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  #production .cards {
+    grid-template-columns: 1fr;
+  }
 }
 
 #production .cards .card {
@@ -176,6 +188,14 @@
   gap: clamp(24px, 4vw, 56px);
   width: min(100%, 1400px);
   margin-inline: auto;
+  justify-items: stretch;
+}
+
+#team .team-grid .member.lead {
+  grid-column: 1 / -1;
+  width: min(100%, 360px);
+  justify-self: center;
+  margin-bottom: clamp(24px, 5vw, 48px);
 }
 
 #team .team-grid .member {
