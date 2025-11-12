@@ -9,3 +9,8 @@ img { display: block; max-width: 100%; height: auto; }
   padding-inline: 5%;
 }
 
+.section.wide-section {
+  max-width: none;
+  width: min(100%, 1400px);
+  padding-inline: clamp(32px, 6vw, 96px);
+}

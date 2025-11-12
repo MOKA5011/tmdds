@@ -233,7 +233,7 @@
   </section>
 
   <!-- 製作過程 -->
-  <section id="production" class="section dark-section">
+  <section id="production" class="section dark-section wide-section">
     <h2 class="section-title">製作過程</h2>
     <div class="cards">
       <div class="card">
@@ -293,7 +293,7 @@
   </section>
 
   <!-- 團隊介紹 -->
-  <section id="team" class="section dark-section">
+  <section id="team" class="section dark-section wide-section">
     <h2 class="section-title">團隊介紹</h2>
     <div class="team-grid">
       <div class="member" onclick="showDetail(0,'team')">
@@ -337,18 +337,28 @@
   </div>
 
   <!-- 展望與回饋 -->
-  <section id="outlook" class="section">
-    <h2 data-aos="fade-up">展望與回饋</h2>
-    <p data-aos="fade-up" data-aos-delay="200">
-      《脫癮而出》是一場夢境與現實交錯的旅程，我們希望它能引起更多人對網路成癮的反思。<br>
-      未來，我們將持續推廣相關議題，並挑戰更多影展平台。<br><br>
-      歡迎你留下對我們的想法與建議，對我做的網站有什麼建議和意見也可以告訴我們！
-    </p>
-    <form class="feedback-form" data-aos="fade-up" data-aos-delay="400">
-      <input type="text" placeholder="您的名字">
-      <textarea placeholder="留言或建議"></textarea>
-      <button type="submit" class="btn">送出</button>
-    </form>
+  <section id="outlook" class="section wide-section">
+    <h2 class="section-title" data-aos="fade-up">展望與回饋</h2>
+    <div class="outlook-grid">
+      <div class="outlook-text" data-aos="fade-up" data-aos-delay="200">
+        <p>
+          《脫癮而出》是一場夢境與現實交錯的旅程，我們希望它能引起更多人對網路成癮的反思。<br><br>
+          未來，我們將持續推廣相關議題，並挑戰更多影展平台。<br><br>
+          歡迎你留下對我們的想法與建議，對我做的網站有什麼建議和意見也可以告訴我們！
+        </p>
+      </div>
+      <form class="feedback-form" data-aos="fade-up" data-aos-delay="300">
+        <div class="field">
+          <label for="feedback-name">您的名字</label>
+          <input id="feedback-name" type="text" placeholder="輸入稱呼或暱稱">
+        </div>
+        <div class="field">
+          <label for="feedback-message">留言或建議</label>
+          <textarea id="feedback-message" placeholder="分享你的感想或建議"></textarea>
+        </div>
+        <button type="submit" class="btn">送出</button>
+      </form>
+    </div>
   </section>
 
   <!-- 幕後花絮 --

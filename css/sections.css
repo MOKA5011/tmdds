@@ -132,6 +132,34 @@
   #dreams .character-image { --ar: 4/3; width: 100%; }
 }
 
+/* ===== 製作過程：卡片排版 ===== */
+#production .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(20px, 3vw, 40px);
+  width: min(100%, 1400px);
+  margin-inline: auto;
+}
+
+#production .cards .card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: rgba(255, 255, 255, .08);
+  border-radius: 16px;
+  padding: clamp(16px, 2vw, 24px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(0, 255, 255, .15);
+}
+
+#production .cards .card h3 {
+  font-size: 1.15rem;
+  text-align: center;
+  color: #e8f7ff;
+  letter-spacing: .05em;
+}
+
 /* ===== 製作過程：卡片內圖片一致 16:9 ===== */
 #production .cards .card img {
   width: 100%;
@@ -142,7 +170,29 @@
 }
 
 /* ===== 團隊介紹：頭像固定正方形，卡片寬度限制 ===== */
-#team .team-grid .member { max-width: 260px; margin-inline: auto; }
+#team .team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(24px, 4vw, 56px);
+  width: min(100%, 1400px);
+  margin-inline: auto;
+}
+
+#team .team-grid .member {
+  width: 100%;
+  margin-inline: auto;
+  background: rgba(255, 255, 255, .08);
+  border-radius: 18px;
+  padding: clamp(18px, 2.5vw, 28px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(0, 255, 255, .15);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+}
 #team .team-grid .member img {
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -150,10 +200,104 @@
   display: block;
   border-radius: 12px;
 }
-@media (max-width: 768px) {
-  #team .team-grid .member { max-width: 220px; }
+
+#team .team-grid .member h3 {
+  font-size: 1.25rem;
+  color: #00f5ff;
+  letter-spacing: .08em;
 }
 
+#team .team-grid .member p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(230, 240, 255, .85);
+}
+
+/* ===== 展望與回饋：文字＋表單雙欄 ===== */
+#outlook .outlook-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(32px, 6vw, 64px);
+  align-items: start;
+  width: min(100%, 1400px);
+  margin-inline: auto;
+}
+
+#outlook .outlook-text p {
+  font-size: clamp(1.05rem, 1vw + 0.9rem, 1.25rem);
+  line-height: 1.9;
+  color: rgba(230, 240, 255, 0.85);
+  margin: 0;
+}
+
+#outlook .feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2vw, 24px);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: clamp(20px, 3vw, 32px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+#outlook .feedback-form .field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#outlook .feedback-form label {
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  color: rgba(155, 225, 255, 0.9);
+}
+
+#outlook .feedback-form input,
+#outlook .feedback-form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  background: rgba(5, 15, 35, 0.75);
+  color: #e8f7ff;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 52px;
+}
+
+#outlook .feedback-form textarea {
+  min-height: 140px;
+}
+
+#outlook .feedback-form input::placeholder,
+#outlook .feedback-form textarea::placeholder {
+  color: rgba(232, 247, 255, 0.6);
+}
+
+#outlook .feedback-form .btn {
+  align-self: flex-start;
+  padding-inline: 28px;
+}
+
+@media (max-width: 768px) {
+  #production .cards {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  #team .team-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  #team .team-grid .member {
+    padding: 20px;
+  }
+
+  #outlook .feedback-form {
+    padding: 20px;
+  }
+}
 /* ===== 幕後花絮：gallery 圖片統一比例 ===== */
 #behind .gallery img {
   width: 100%;
