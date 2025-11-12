@@ -3,7 +3,7 @@
    ========================= */
 
 /* === Cloudflare Worker 端點（改成你的 URL） === */
-const CF_ENDPOINT = 'https://square-math-ec9a.leochen0963.workers.dev';
+const CF_ENDPOINT = 'https://square-math-ec9a.leochen0963.workers.dev/';
 
 /* === 基本常數 === */
 const MAX_SCORE = 300;
@@ -453,7 +453,7 @@ async function requestAIAnalysis(payload) {
 
     const a = data.analysis || {};
     box.innerHTML = `
-      <h3>AI 分析</h3>
+      <h3>建議</h3>
       <p><strong>總結</strong>：${escapeHtml(a.summary || '')}</p>
       <p><strong>風險等級</strong>：<span class="pill ${a.risk_level || 'unknown'}">${a.risk_level || '—'}</span></p>
       ${renderWhy(a.why)}
@@ -465,7 +465,7 @@ async function requestAIAnalysis(payload) {
     `;
   } catch (err) {
     box.innerHTML = `
-      <h3>AI 分析</h3>
+      <h3>建議</h3>
       <p class="error">抱歉，分析失敗：${escapeHtml(String(err.message || err))}</p>
       <button class="btn" id="retryAI">重試</button>
     `;
