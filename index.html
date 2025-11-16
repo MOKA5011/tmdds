@@ -347,14 +347,18 @@
           歡迎你留下對我們的想法與建議，對我做的網站有什麼建議和意見也可以告訴我們！
         </p>
       </div>
-      <form class="feedback-form" data-aos="fade-up" data-aos-delay="300">
+      <form class="feedback-form" action="https://formspree.io/f/mjkjpdwn" method="POST" data-aos="fade-up" data-aos-delay="300">
         <div class="field">
           <label for="feedback-name">您的名字</label>
-          <input id="feedback-name" type="text" placeholder="輸入稱呼或暱稱">
+          <input id="feedback-name" name="name" type="text" placeholder="輸入稱呼或暱稱" required>
+        </div>
+        <div class="field">
+          <label for="feedback-email">聯絡 Email（選填）</label>
+          <input id="feedback-email" name="email" type="email" placeholder="如需回覆，請留下 Email">
         </div>
         <div class="field">
           <label for="feedback-message">留言或建議</label>
-          <textarea id="feedback-message" placeholder="分享你的感想或建議"></textarea>
+          <textarea id="feedback-message" name="message" placeholder="分享你的感想或建議" required></textarea>
         </div>
         <button type="submit" class="btn">送出</button>
       </form>
